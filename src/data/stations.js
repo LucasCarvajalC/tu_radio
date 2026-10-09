@@ -1,0 +1,58 @@
+// Catálogo de estaciones. Fuente única para IDs, rutas y temas.
+// Las rutas son relativas al servidor web (public/ -> /).
+// Sin audios reales aún: tracks vacíos, introSrc declarado.
+
+export const GLOBAL_INTRO_SRC = "/audio/global/welcome-radio.mp3";
+export const BIRTHDAY_MESSAGE_SRC = "/audio/birthday/birthday-message.mp3";
+
+export const stations = [
+  {
+    id: "old-school",
+    frequency: "88.1 FM",
+    name: "Radio Old School",
+    shortLabel: "OLD SCHOOL",
+    accent: "blue",
+    type: "music",
+    introSrc: "/audio/stations/old-school/station-intro.mp3",
+    tracks: [],
+  },
+  {
+    id: "boleros",
+    frequency: "94.7 FM",
+    name: "Boleros",
+    shortLabel: "ROMANTIC",
+    accent: "amber",
+    type: "music",
+    introSrc: "/audio/stations/boleros/station-intro.mp3",
+    tracks: [],
+  },
+  {
+    id: "rock-latino",
+    frequency: "101.3 FM",
+    name: "Rock Latino",
+    shortLabel: "LATIN ROCK",
+    accent: "cyan",
+    type: "music",
+    introSrc: "/audio/stations/rock-latino/station-intro.mp3",
+    tracks: [],
+  },
+  {
+    id: "pop-kpop",
+    frequency: "107.5 FM",
+    name: "Pop K-Pop",
+    shortLabel: "K-POP / MIX",
+    accent: "violet",
+    type: "music",
+    introSrc: "/audio/stations/pop-kpop/station-intro.mp3",
+    tracks: [],
+  },
+  {
+    id: "birthday",
+    frequency: "FREQ 05",
+    name: "Birthday Special",
+    shortLabel: "SPECIAL MESSAGE",
+    accent: "birthday",
+    type: "special",
+    messageSrc: BIRTHDAY_MESSAGE_SRC,
+  },
+];
