@@ -281,7 +281,7 @@
 }
 
 /* Botón de encendido redondo con aro ámbar */
-.fp-left .power-key {
+.faceplate-grid .power-key {
   width: 76px;
   height: 76px;
   border-radius: 50%;

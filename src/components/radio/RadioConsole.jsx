@@ -116,39 +116,8 @@ export default function RadioConsole({ player }) {
       <span className="fp-screw fp-screw--right" aria-hidden="true" />
       <div className="cd-slot" aria-hidden="true" />
       <div className="faceplate-inset faceplate-grid">
-        {/* Zona izquierda: potencia, volumen y perilla */}
+        {/* Zona izquierda: perilla */}
         <div className="fp-left">
-          <button
-            type="button"
-            className={isOff ? "btn key power-key power-button--standby" : "btn key power-key"}
-            aria-label={isOff ? "Encender radio" : "Apagar radio"}
-            aria-pressed={!isOff}
-            onClick={player.togglePower}
-          >
-            <svg className="key__icon power-key__icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 3 L12 11" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-              <path d="M6.3 6.5 A8 8 0 1 0 17.7 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-            </svg>
-            <span>POWER</span>
-          </button>
-          <button
-            type="button"
-            className="btn key"
-            disabled={isOff}
-            title={isOff ? "Radio apagada — pulsa POWER" : dimmed ? "Brillo normal" : "Atenuar pantalla"}
-            aria-label={dimmed ? "Brillo normal de pantalla" : "Atenuar pantalla"}
-            aria-pressed={dimmed}
-            onClick={() => setDimmed((d) => !d)}
-          >
-            DIMMER
-          </button>
-          <VolumeControl
-            disabled={isOff}
-            value={volValue}
-            column
-            onDown={() => player.setVolume(state.volume - 0.1)}
-            onUp={() => player.setVolume(state.volume + 0.1)}
-          />
           <FrequencyDial
             disabled={!stationsEnabled}
             locked={welcomeLock}
@@ -227,12 +196,43 @@ export default function RadioConsole({ player }) {
           </div>
         </div>
 
-        {/* Zona derecha: marca y AUX decorativo */}
+        {/* Zona derecha: marca, controles y AUX */}
         <div className="fp-right">
           <div className="fp-brand" aria-hidden="true">
             <span className="fp-brand__name">TU RADIO</span>
             <span className="fp-brand__model">CDX-2004 · SUPER BASS · 45W×4</span>
           </div>
+          <button
+            type="button"
+            className={isOff ? "btn key power-key power-button--standby" : "btn key power-key"}
+            aria-label={isOff ? "Encender radio" : "Apagar radio"}
+            aria-pressed={!isOff}
+            onClick={player.togglePower}
+          >
+            <svg className="key__icon power-key__icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3 L12 11" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+              <path d="M6.3 6.5 A8 8 0 1 0 17.7 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+            </svg>
+            <span>POWER</span>
+          </button>
+          <VolumeControl
+            disabled={isOff}
+            value={volValue}
+            column
+            onDown={() => player.setVolume(state.volume - 0.1)}
+            onUp={() => player.setVolume(state.volume + 0.1)}
+          />
+          <button
+            type="button"
+            className="btn key"
+            disabled={isOff}
+            title={isOff ? "Radio apagada — pulsa POWER" : dimmed ? "Brillo normal" : "Atenuar pantalla"}
+            aria-label={dimmed ? "Brillo normal de pantalla" : "Atenuar pantalla"}
+            aria-pressed={dimmed}
+            onClick={() => setDimmed((d) => !d)}
+          >
+            DIMMER
+          </button>
           <div className="aux-port" aria-hidden="true">
             <span className="aux-port__slot" />
             <span className="aux-port__label">AUX</span>
