@@ -76,6 +76,15 @@ export function radioReducer(state, action) {
     case "TRACK_ERROR":
       if (state.powerState === "off") return state;
       return { ...state, playbackStatus: "error", errorMessage: action.message || "AUDIO NO DISPONIBLE" };
+    case "BIRTHDAY_PLAYING":
+      if (state.powerState === "off") return state;
+      return { ...state, playbackStatus: "playing", activeKind: "birthday-message", errorMessage: null };
+    case "BIRTHDAY_FINISHED":
+      if (state.powerState === "off") return state;
+      return { ...state, playbackStatus: "ended", activeKind: "birthday-finished", errorMessage: null };
+    case "BIRTHDAY_ERROR":
+      if (state.powerState === "off") return state;
+      return { ...state, playbackStatus: "error", activeKind: "birthday-message", errorMessage: action.message || "AUDIO NO DISPONIBLE" };
     case "VOLUME_SET": {
       const v = Math.min(1, Math.max(0, action.volume));
       return { ...state, volume: v };

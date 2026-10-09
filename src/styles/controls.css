@@ -10,15 +10,17 @@
 .lcd__freq {
   font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
   font-size: 2rem;
+  font-weight: 600;
   color: var(--station-accent);
   letter-spacing: 0.06em;
+  text-shadow: 0 0 12px var(--station-glow), 0 0 2px currentColor;
 }
 
 .lcd__station {
   font-family: ui-monospace, Consolas, monospace;
   color: var(--text-primary);
-  letter-spacing: 0.2em;
-  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  font-size: 0.78rem;
   margin-top: 4px;
 }
 
@@ -56,6 +58,31 @@
   opacity: 0.85;
   border-radius: 2px;
   height: 30%;
+}
+
+.eq--active span {
+  animation: eq-bounce 0.9s ease-in-out infinite;
+}
+
+.eq--active span:nth-child(2n) {
+  animation-delay: 0.15s;
+}
+
+.eq--active span:nth-child(3n) {
+  animation-delay: 0.3s;
+}
+
+.eq--active span:nth-child(4n) {
+  animation-delay: 0.45s;
+}
+
+@keyframes eq-bounce {
+  0%, 100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1);
+  }
 }
 
 .presets {
@@ -102,14 +129,58 @@
   padding: 8px 14px;
   border-radius: 8px;
   border: 1px solid #000;
-  background: #222834;
+  border-top-color: #3a424e;
+  background: linear-gradient(180deg, #2b323d, #1a1f27);
   color: var(--text-primary);
   font-family: ui-monospace, Consolas, monospace;
+  box-shadow: 0 2px 0 #000, inset 0 1px 0 rgb(255 255 255 / 10%);
 }
 
 .btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+.btn:not(:disabled):active {
+  transform: scale(0.96);
+}
+
+.presets .btn[aria-pressed="true"] {
+  border-color: var(--station-accent);
+  box-shadow: 0 0 10px var(--station-glow);
+  color: var(--station-accent);
+}
+
+.dial {
+  transition: transform 0.25s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  background:
+    radial-gradient(circle at 30% 30%, #3a424e, #12151b 70%),
+    repeating-conic-gradient(rgb(255 255 255 / 6%) 0 4deg, transparent 4deg 12deg);
+}
+
+.dial:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.lcd__freq {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+.lcd__track--long {
+  animation: track-scroll 8s linear infinite;
+}
+
+@keyframes track-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-30%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .btn:focus-visible {
