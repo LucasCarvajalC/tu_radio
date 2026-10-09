@@ -82,6 +82,86 @@
   gap: 20px;
 }
 
+/* Faceplate: 3 zonas (V3) */
+.faceplate-grid {
+  display: grid;
+  grid-template-columns: 24% 54% 22%;
+  gap: 14px;
+  align-items: start;
+}
+
+.fp-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.fp-center {
+  min-width: 0;
+}
+
+.fp-silk {
+  text-align: center;
+  color: var(--text-secondary);
+  opacity: 0.75;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  font-family: system-ui, sans-serif;
+  margin-bottom: 8px;
+}
+
+.fp-keys {
+  margin-top: 10px;
+}
+
+.fp-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.fp-brand {
+  color: var(--text-secondary);
+  opacity: 0.8;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  font-family: system-ui, sans-serif;
+}
+
+.aux-port {
+  width: 84px;
+  padding: 10px 8px;
+  border: 1px solid #1c232e;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #0d1117, #06080c);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.aux-port__slot {
+  width: 44px;
+  height: 8px;
+  border-radius: 4px;
+  background: #000;
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 90%);
+}
+
+.aux-port__label {
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.volume--column {
+  flex-direction: column;
+}
+
 @media (max-width: 720px) {
   .radio-main {
     grid-template-columns: 1fr;

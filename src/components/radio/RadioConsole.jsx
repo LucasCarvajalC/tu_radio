@@ -98,18 +98,44 @@ export default function RadioConsole({ player }) {
       data-station={dataStation}
       aria-label={isOff ? "Radio apagada en standby" : "Radio encendida"}
     >
-      <div className="radio-shell__top">
-        <span>TU RADIO</span>
-        <span>FM STEREO</span>
-      </div>
-      <div className="cd-slot" aria-hidden="true" />
-      <div className="radio-main">
-        <div>
+      <div className="faceplate-inset faceplate-grid">
+        {/* Zona izquierda: potencia, volumen y perilla */}
+        <div className="fp-left">
+          <button
+            type="button"
+            className={isOff ? "btn key power-key power-button--standby" : "btn key power-key"}
+            aria-label={isOff ? "Encender radio" : "Apagar radio"}
+            aria-pressed={!isOff}
+            onClick={player.togglePower}
+          >
+            POWER
+          </button>
+          <VolumeControl
+            disabled={isOff}
+            value={volValue}
+            column
+            onDown={() => player.setVolume(state.volume - 0.1)}
+            onUp={() => player.setVolume(state.volume + 0.1)}
+          />
+          <FrequencyDial
+            disabled={!stationsEnabled}
+            stations={stations}
+            selectedId={state.selectedStationId}
+            onSelect={player.selectStation}
+          />
+        </div>
+
+        {/* Zona centro: serigrafía, pantalla y fila única de teclas */}
+        <div className="fp-center">
+          <div className="fp-silk" aria-hidden="true">
+            <span>MP3 · FM STEREO</span>
+          </div>
           <RadioDisplay
             frequency={info.freq}
             stationName={info.name}
             trackText={info.track}
             status={info.status}
+            volume={volValue}
           />
           {showRetry && (
             <AudioErrorMessage
@@ -126,7 +152,7 @@ export default function RadioConsole({ player }) {
           {player.devSkipEnabled && welcomeLock && (
             <div className="lcd__status">
               <span>DEV_SKIP_INTRO activo (solo desarrollo)</span>
-              <button type="button" className="btn" onClick={player.devSkipIntro}>
+              <button type="button" className="btn key" onClick={player.devSkipIntro}>
                 Saltar intro
               </button>
             </div>
@@ -135,45 +161,41 @@ export default function RadioConsole({ player }) {
           {showReplay && (
             <div className="lcd__status">
               <span>Mensaje terminado — pulsa para repetir</span>
-              <button type="button" className="btn" onClick={player.replayBirthday}>
+              <button type="button" className="btn key" onClick={player.replayBirthday}>
                 REPLAY
               </button>
             </div>
           )}
-          <StationPresets
-            stations={stations}
-            disabled={!stationsEnabled}
-            reason={lockedReason}
-            selectedId={state.selectedStationId}
-            onSelect={player.selectStation}
-          />
-          <RadioButtons
-            disabledReason={lockedReason}
-            powerState={state.powerState}
-            onTogglePower={player.togglePower}
-            playbackStatus={state.playbackStatus}
-            canPlayPause={canPlayPause}
-            onTogglePlayPause={player.togglePlayPause}
-            canNext={canNext}
-            onNext={player.nextTrack}
-          />
-          <VolumeControl
-            disabled={isOff}
-            value={volValue}
-            onDown={() => player.setVolume(state.volume - 0.1)}
-            onUp={() => player.setVolume(state.volume + 0.1)}
-          />
+          <div className="fp-keys">
+            <StationPresets
+              stations={stations}
+              disabled={!stationsEnabled}
+              reason={lockedReason}
+              selectedId={state.selectedStationId}
+              onSelect={player.selectStation}
+            />
+            <RadioButtons
+              disabledReason={lockedReason}
+              powerState={state.powerState}
+              onTogglePower={player.togglePower}
+              playbackStatus={state.playbackStatus}
+              canPlayPause={canPlayPause}
+              onTogglePlayPause={player.togglePlayPause}
+              canNext={canNext}
+              onNext={player.nextTrack}
+              hidePower
+            />
+          </div>
         </div>
-        <FrequencyDial
-          disabled={!stationsEnabled}
-          stations={stations}
-          selectedId={state.selectedStationId}
-          onSelect={player.selectStation}
-        />
-      </div>
-      <div className="radio-brand">
-        <span>RETRO SOUND</span>
-        <span>MP3</span>
+
+        {/* Zona derecha: marca y AUX decorativo */}
+        <div className="fp-right">
+          <div className="fp-brand" aria-hidden="true">TU RADIO</div>
+          <div className="aux-port" aria-hidden="true">
+            <span className="aux-port__slot" />
+            <span className="aux-port__label">AUX</span>
+          </div>
+        </div>
       </div>
     </section>
   );
