@@ -16,6 +16,66 @@
   box-shadow: 0 0 10px rgb(255 173 53 / 30%), 0 2px 0 #000;
 }
 
+/* Secuencia de encendido progresivo (un disparo al pasar a on) */
+.radio-console:not(.radio-console--off) .lcd {
+  animation: lcd-on 0.7s ease both;
+}
+
+.radio-console:not(.radio-console--off) .knob__ring {
+  animation: ring-on 1s ease both;
+}
+
+.radio-console:not(.radio-console--off) .fp-keys .key {
+  animation: led-in 0.45s ease both;
+}
+
+.radio-console:not(.radio-console--off) .fp-keys .presets .key:nth-child(1) { animation-delay: 0.15s; }
+.radio-console:not(.radio-console--off) .fp-keys .presets .key:nth-child(2) { animation-delay: 0.25s; }
+.radio-console:not(.radio-console--off) .fp-keys .presets .key:nth-child(3) { animation-delay: 0.35s; }
+.radio-console:not(.radio-console--off) .fp-keys .presets .key:nth-child(4) { animation-delay: 0.45s; }
+.radio-console:not(.radio-console--off) .fp-keys .presets .key:nth-child(5) { animation-delay: 0.55s; }
+.radio-console:not(.radio-console--off) .fp-keys .transport .key:nth-child(1) { animation-delay: 0.65s; }
+.radio-console:not(.radio-console--off) .fp-keys .transport .key:nth-child(2) { animation-delay: 0.75s; }
+.radio-console:not(.radio-console--off) .fp-keys .transport .key:nth-child(3) { animation-delay: 0.85s; }
+.radio-console:not(.radio-console--off) .fp-keys .transport .key:nth-child(4) { animation-delay: 0.95s; }
+.radio-console:not(.radio-console--off) .fp-keys .transport .key:nth-child(5) { animation-delay: 1.05s; }
+
+.radio-console:not(.radio-console--off) .fp-left .power-key,
+.radio-console:not(.radio-console--off) .fp-right .power-key,
+.radio-console:not(.radio-console--off) .fp-brand,
+.radio-console:not(.radio-console--off) .fp-silk {
+  animation: led-in 0.6s ease both;
+}
+
+@keyframes lcd-on {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ring-on {
+  from {
+    opacity: 0.15;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes led-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .power-button--standby {
     animation: none;
@@ -25,6 +85,14 @@
   .eq span,
   .eq--active span,
   .lcd__track--long {
+    animation: none !important;
+  }
+
+  .radio-console .lcd,
+  .radio-console .knob__ring,
+  .radio-console .fp-keys .key,
+  .radio-console .fp-brand,
+  .radio-console .fp-silk {
     animation: none !important;
   }
 
