@@ -34,7 +34,12 @@ function statusFor(player) {
     return { freq: "--.- FM", name: "READY", track: "Elige una emisora", status: "READY" };
   }
   if (station.type === "special") {
-    return { freq: station.frequency, name: station.name, track: "Especial llega en Fase 7", status: "READY" };
+    if (state.playbackStatus === "loading") return { freq: station.frequency, name: station.name, track: "CARGANDO MENSAJE...", status: "LOADING" };
+    if (state.playbackStatus === "playing") return { freq: station.frequency, name: station.name, track: "SPECIAL MESSAGE", status: "BIRTHDAY" };
+    if (state.playbackStatus === "paused") return { freq: station.frequency, name: station.name, track: "MENSAJE EN PAUSA", status: "PAUSE" };
+    if (state.playbackStatus === "error") return { freq: station.frequency, name: station.name, track: state.errorMessage, status: "ERROR" };
+    if (state.activeKind === "birthday-finished") return { freq: station.frequency, name: station.name, track: "END OF MESSAGE", status: "END" };
+    return { freq: station.frequency, name: station.name, track: "SPECIAL MESSAGE", status: "READY" };
   }
   if (state.activeKind === "station-intro") {
     if (state.playbackStatus === "error") return { freq: station.frequency, name: station.name, track: state.errorMessage, status: "ERROR" };
@@ -72,8 +77,9 @@ export default function RadioConsole({ player }) {
   const selected = lookupSelected(state);
   const dataStation = selected ? selected.id : "old-school";
   const isPlaying = state.playbackStatus === "playing";
-  const canPlayPause = !isOff && (state.activeKind === "track" || state.activeKind === "station-intro" || state.activeKind === "global-intro") && (isPlaying || state.playbackStatus === "paused");
+  const canPlayPause = !isOff && (state.activeKind === "track" || state.activeKind === "station-intro" || state.activeKind === "global-intro" || state.activeKind === "birthday-message" || state.activeKind === "birthday-finished") && (isPlaying || state.playbackStatus === "paused" || state.activeKind === "birthday-finished");
   const canNext = !isOff && state.activeKind === "track" && !!selected && selected.type === "music" && selected.tracks.length > 0 && (isPlaying || state.playbackStatus === "paused" || state.playbackStatus === "ended");
+  const showReplay = !isOff && selected?.type === "special" && state.activeKind === "birthday-finished";
 
   const lockedReason = isOff
     ? "Radio apagada — pulsa POWER"
@@ -84,7 +90,7 @@ export default function RadioConsole({ player }) {
   const showRetry =
     state.powerState === "on" &&
     state.playbackStatus === "error" &&
-    (state.activeKind === "global-intro" || state.activeKind === "station-intro" || state.activeKind === "track");
+    (state.activeKind === "global-intro" || state.activeKind === "station-intro" || state.activeKind === "track" || state.activeKind === "birthday-message");
 
   return (
     <section
@@ -126,6 +132,14 @@ export default function RadioConsole({ player }) {
             </div>
           )}
           <Equalizer active={isPlaying} />
+          {showReplay && (
+            <div className="lcd__status">
+              <span>Mensaje terminado — pulsa para repetir</span>
+              <button type="button" className="btn" onClick={player.replayBirthday}>
+                REPLAY
+              </button>
+            </div>
+          )}
           <StationPresets
             stations={stations}
             disabled={!stationsEnabled}

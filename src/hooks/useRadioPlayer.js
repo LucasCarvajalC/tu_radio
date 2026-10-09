@@ -149,10 +149,14 @@ export function useRadioPlayer() {
       tokenRef.current = sessionToken;
 
       if (station.type === "special") {
-        // Cumpleaños completo llega en Fase 7: no iniciar música.
-        dispatch({ type: "SELECT_STATION", stationId, kind: "birthday-pending", playbackStatus: "idle" });
-        stopCurrentAudio();
-        tokenRef.current = sessionToken;
+        dispatch({ type: "SELECT_STATION", stationId, kind: "birthday-message", playbackStatus: "loading" });
+        try {
+          const ok = await playSrc(station.messageSrc, sessionToken);
+          if (!ok) return;
+          dispatch({ type: "BIRTHDAY_PLAYING" });
+        } catch (err) {
+          dispatch({ type: "BIRTHDAY_ERROR", message: toUserAudioError(err) });
+        }
         return;
       }
 
@@ -166,8 +170,15 @@ export function useRadioPlayer() {
         dispatch({ type: "STATION_INTRO_ERROR", message: toUserAudioError(err) });
       }
     },
-    [playSrc, stopCurrentAudio]
+    [playSrc]
   );
+
+  const replayBirthday = useCallback(() => {
+    const s = stateRef.current;
+    if (s.powerState === "off") return;
+    if (s.selectedStationId !== "birthday") return;
+    selectStation("birthday");
+  }, [selectStation]);
 
   // Listeners: ended avanza según activeKind; error muestra recuperación.
   useEffect(() => {
@@ -199,6 +210,11 @@ export function useRadioPlayer() {
         playNextFromBag(station, tokenAtEnd);
         return;
       }
+      if (s.activeKind === "birthday-message") {
+        if (tokenRef.current !== tokenAtEnd) return;
+        dispatch({ type: "BIRTHDAY_FINISHED" });
+        return;
+      }
     };
     const onError = () => {
       const s = stateRef.current;
@@ -209,6 +225,8 @@ export function useRadioPlayer() {
         dispatch({ type: "STATION_INTRO_ERROR", message: "AUDIO NO DISPONIBLE" });
       } else if (s.activeKind === "track") {
         dispatch({ type: "TRACK_ERROR", message: "AUDIO NO DISPONIBLE" });
+      } else if (s.activeKind === "birthday-message") {
+        dispatch({ type: "BIRTHDAY_ERROR", message: "AUDIO NO DISPONIBLE" });
       }
     };
     el.addEventListener("ended", onEnded);
@@ -232,6 +250,10 @@ export function useRadioPlayer() {
       if (stateRef.current.activeKind === "track") dispatch({ type: "TRACK_PLAYING" });
       else if (stateRef.current.activeKind === "station-intro") dispatch({ type: "STATION_INTRO_PLAYING" });
       else if (stateRef.current.activeKind === "global-intro") dispatch({ type: "INTRO_PLAYING" });
+      else if (stateRef.current.activeKind === "birthday-message" || stateRef.current.activeKind === "birthday-finished") {
+        // Reanudar mensaje: vuelve a estado de mensaje en curso.
+        dispatch({ type: "BIRTHDAY_PLAYING" });
+      }
     } catch (err) {
       dispatch({ type: "TRACK_ERROR", message: toUserAudioError(err) });
     }
@@ -286,6 +308,7 @@ export function useRadioPlayer() {
     devSkipIntro,
     devSkipEnabled: DEV_SKIP_INTRO,
     selectStation,
+    replayBirthday,
     play,
     pause,
     togglePlayPause,
