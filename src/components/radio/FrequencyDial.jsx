@@ -1,14 +1,14 @@
 export default function FrequencyDial({ disabled, stations, selectedId, onSelect }) {
   const ids = stations.map((s) => s.id);
+  const idx = Math.max(0, ids.indexOf(selectedId));
+  const rotation = ids.length > 1 ? (idx / (ids.length - 1)) * 270 - 135 : 0;
   const cycle = () => {
     if (disabled || !onSelect) return;
-    const idx = ids.indexOf(selectedId);
     const next = ids[(idx + 1 + ids.length) % ids.length];
     onSelect(next);
   };
   const onKeyDown = (e) => {
     if (disabled || !onSelect) return;
-    const idx = ids.indexOf(selectedId);
     if (e.key === "ArrowRight" || e.key === "ArrowDown") {
       e.preventDefault();
       onSelect(ids[(idx + 1 + ids.length) % ids.length] || ids[0]);
@@ -27,8 +27,9 @@ export default function FrequencyDial({ disabled, stations, selectedId, onSelect
         aria-label="Perilla selectora de emisora"
         onClick={cycle}
         onKeyDown={onKeyDown}
+        style={{ transform: `rotate(${rotation}deg)` }}
       >
-        ◉
+        <span style={{ display: "inline-block", transform: `rotate(${-rotation}deg)` }}>◉</span>
       </button>
       <small style={{ color: "var(--text-secondary)" }}>TUNE</small>
     </div>

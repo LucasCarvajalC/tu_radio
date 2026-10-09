@@ -58,6 +58,31 @@
   height: 30%;
 }
 
+.eq--active span {
+  animation: eq-bounce 0.9s ease-in-out infinite;
+}
+
+.eq--active span:nth-child(2n) {
+  animation-delay: 0.15s;
+}
+
+.eq--active span:nth-child(3n) {
+  animation-delay: 0.3s;
+}
+
+.eq--active span:nth-child(4n) {
+  animation-delay: 0.45s;
+}
+
+@keyframes eq-bounce {
+  0%, 100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
 .presets {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -110,6 +135,36 @@
 .btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+.btn:not(:disabled):active {
+  transform: scale(0.96);
+}
+
+.presets .btn[aria-pressed="true"] {
+  border-color: var(--station-accent);
+  box-shadow: 0 0 10px var(--station-glow);
+  color: var(--station-accent);
+}
+
+.dial {
+  transition: transform 0.25s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.lcd__track--long {
+  animation: track-scroll 8s linear infinite;
+}
+
+@keyframes track-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-30%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .btn:focus-visible {

@@ -7,6 +7,12 @@
   padding: 20px;
   color: var(--text-primary);
   box-shadow: 0 24px 60px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 12%);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.radio-console[data-station="old-school"] {
+  --station-accent: var(--lcd-blue);
+  --station-glow: rgb(0 168 255 / 24%);
 }
 
 .radio-console[data-station="boleros"] {
@@ -14,12 +20,12 @@
   --station-glow: rgb(255 173 53 / 24%);
 }
 
-.radio-console[data-station="latin-rock-pop"] {
+.radio-console[data-station="rock-latino"] {
   --station-accent: var(--lcd-cyan);
   --station-glow: rgb(70 243 255 / 22%);
 }
 
-.radio-console[data-station="kpop-favorites"] {
+.radio-console[data-station="pop-kpop"] {
   --station-accent: var(--accent-violet);
   --station-glow: rgb(189 92 255 / 26%);
 }

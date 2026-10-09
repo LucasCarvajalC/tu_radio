@@ -19,7 +19,13 @@
     opacity: 1;
   }
 
-  .eq span {
+  .eq span,
+  .eq--active span,
+  .lcd__track--long {
     animation: none !important;
+  }
+
+  .dial {
+    transition: none;
   }
 }
