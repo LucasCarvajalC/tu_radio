@@ -1,13 +1,36 @@
 .radio-console {
-  --station-accent: var(--lcd-blue);
-  --station-glow: rgb(0 168 255 / 24%);
-  background: linear-gradient(180deg, var(--radio-shell-highlight), var(--radio-shell) 30%, var(--radio-edge));
-  border: 1px solid #000;
-  border-radius: 18px;
-  padding: 20px;
+  --station-accent: #2fa8ff;
+  --station-glow: rgb(47 168 255 / 35%);
+  position: relative;
+  width: min(100%, var(--faceplate-max-width));
+  margin-inline: auto;
+  background: linear-gradient(180deg, var(--bezel-gloss-top), var(--bezel-gloss-mid) 35%, var(--bezel-gloss-bot));
+  border: 1px solid var(--bezel-chamfer);
+  border-radius: var(--faceplate-radius) / calc(var(--faceplate-radius) * 1.4);
+  padding: 20px 22px;
   color: var(--text-primary);
-  box-shadow: 0 24px 60px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 12%);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 14%);
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+}
+
+/* Reflejo superior del bisel */
+.radio-console::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 22%), transparent);
+  pointer-events: none;
+}
+
+/* Marco interior hundido */
+.faceplate-inset {
+  background: var(--inset-panel);
+  border: 1px solid #000;
+  border-radius: 10px;
+  box-shadow: inset 0 4px 14px rgb(0 0 0 / 80%), 0 1px 0 rgb(255 255 255 / 5%);
+  padding: 14px;
 }
 
 .radio-console[data-station="old-school"] {
