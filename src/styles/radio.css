@@ -1,6 +1,6 @@
 .radio-console {
-  --station-accent: #2fa8ff;
-  --station-glow: rgb(47 168 255 / 35%);
+  --station-accent: var(--accent-pink);
+  --station-glow: var(--accent-pink-glow);
   position: relative;
   width: min(100%, var(--faceplate-max-width));
   margin-inline: auto;
