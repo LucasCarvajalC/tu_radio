@@ -13,7 +13,7 @@
 }
 
 .power-button--standby {
-  box-shadow: 0 0 10px rgb(255 173 53 / 30%), 0 2px 0 #000;
+  box-shadow: 0 0 10px rgb(255 78 203 / 35%), 0 2px 0 #000;
 }
 
 /* Secuencia de encendido progresivo (un disparo al pasar a on) */

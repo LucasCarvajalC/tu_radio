@@ -276,20 +276,20 @@
 }
 
 .power-key:not(:disabled) {
-  color: var(--accent-amber);
-  border-top-color: var(--accent-amber);
+  color: var(--accent-magenta);
+  border-top-color: var(--accent-magenta);
 }
 
-/* Botón de encendido redondo con aro ámbar */
+/* Botón de encendido redondo con aro magenta (distinto al rosita general) */
 .faceplate-grid .power-key {
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  border: 2px solid var(--accent-amber);
+  border: 2px solid var(--accent-magenta);
   flex-direction: column;
   gap: 2px;
   font-size: 0.58rem;
-  box-shadow: 0 0 12px rgb(255 173 53 / 25%), 0 2px 0 #000, inset 0 1px 0 rgb(255 255 255 / 10%);
+  box-shadow: 0 0 12px rgb(255 78 203 / 30%), 0 2px 0 #000, inset 0 1px 0 rgb(255 255 255 / 10%);
 }
 
 .power-key__icon {
