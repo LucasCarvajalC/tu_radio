@@ -58,28 +58,29 @@
   --station-glow: rgb(255 70 88 / 26%);
 }
 
-.radio-shell__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--text-secondary);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  font-family: ui-monospace, Consolas, monospace;
-}
-
-.cd-slot {
-  height: 8px;
-  background: #000;
-  border-radius: 4px;
-  margin: 12px 4px;
-  box-shadow: inset 0 1px 3px rgb(0 0 0 / 90%), 0 1px 0 rgb(255 255 255 / 8%);
-}
-
 .radio-main {
   display: grid;
   grid-template-columns: 1fr 190px;
   gap: 20px;
+}
+
+/* Tornillos mínimos del frontal (decorativos, inertes) */
+.fp-screw {
+  position: absolute;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4a515c, #14171c 70%);
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 80%);
+}
+
+.fp-screw--left {
+  left: 10px;
+}
+
+.fp-screw--right {
+  right: 10px;
 }
 
 /* Faceplate: 3 zonas (V3) */
@@ -166,16 +167,6 @@
   .radio-main {
     grid-template-columns: 1fr;
   }
-}
-
-.radio-brand {
-  margin-top: 12px;
-  display: flex;
-  justify-content: space-between;
-  color: var(--text-secondary);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  font-family: ui-monospace, Consolas, monospace;
 }
 
 .radio-console--off {

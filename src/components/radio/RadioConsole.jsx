@@ -97,6 +97,8 @@ export default function RadioConsole({ player }) {
       data-station={dataStation}
       aria-label={isOff ? "Radio apagada en standby" : "Radio encendida"}
     >
+      <span className="fp-screw fp-screw--left" aria-hidden="true" />
+      <span className="fp-screw fp-screw--right" aria-hidden="true" />
       <div className="faceplate-inset faceplate-grid">
         {/* Zona izquierda: potencia, volumen y perilla */}
         <div className="fp-left">
