@@ -222,6 +222,58 @@
   color: var(--station-accent);
 }
 
+/* Teclas estilo serigrafía con retroiluminación (V6) */
+.key {
+  background: linear-gradient(180deg, #232930, #141820);
+  border: 1px solid #000;
+  border-top-color: #39414c;
+  box-shadow: 0 2px 0 #000, inset 0 1px 0 rgb(255 255 255 / 8%);
+  color: var(--text-secondary);
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+
+.key:not(:disabled) {
+  color: var(--key-backlight);
+  border-top-color: var(--key-backlight);
+}
+
+.key__num {
+  font-size: 0.62rem;
+  opacity: 0.7;
+}
+
+.key__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.key__icon {
+  flex: 0 0 auto;
+}
+
+.key:not(:disabled):active {
+  transform: translateY(1px);
+  box-shadow: 0 0 0 #000, inset 0 2px 6px rgb(0 0 0 / 60%);
+}
+
+.presets .key[aria-pressed="true"] {
+  color: var(--station-accent);
+  border-color: var(--station-accent);
+  border-top-color: var(--station-accent);
+  box-shadow: 0 0 10px var(--station-glow), inset 0 1px 0 rgb(255 255 255 / 10%);
+}
+
+.power-key:not(:disabled) {
+  color: var(--accent-amber);
+  border-top-color: var(--accent-amber);
+}
+
 .dial {
   transition: transform 0.25s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   background:
