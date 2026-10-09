@@ -38,6 +38,7 @@ export const stations = [
       { id: "boleros-005", title: "La Incondicional", artist: "Luis Miguel", src: "/audio/stations/boleros/songs/song-005.mp3" },
       { id: "boleros-006", title: "No Sé Tú", artist: "Luis Miguel", src: "/audio/stations/boleros/songs/song-006.mp3" },
       { id: "boleros-007", title: "Por Debajo De La Mesa", artist: "Luis Miguel", src: "/audio/stations/boleros/songs/song-007.mp3" },
+      { id: "boleros-008", title: "Si Nos Dejan", artist: "Luis Miguel", src: "/audio/stations/boleros/songs/song-008.mp3" },
     ],
   },
   {
@@ -59,6 +60,7 @@ export const stations = [
       { id: "rock-latino-008", title: "De Música Ligera", artist: "Soda Stereo", src: "/audio/stations/rock-latino/songs/song-008.mp3" },
       { id: "rock-latino-009", title: "Trátame Suavemente", artist: "Soda Stereo", src: "/audio/stations/rock-latino/songs/song-009.mp3" },
       { id: "rock-latino-010", title: "Te Mando Flores", src: "/audio/stations/rock-latino/songs/song-010.mp3" },
+      { id: "rock-latino-011", title: "Experiencia Religiosa", artist: "Enrique Iglesias", src: "/audio/stations/rock-latino/songs/song-011.mp3" },
     ],
   },
   {
