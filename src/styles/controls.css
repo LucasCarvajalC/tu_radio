@@ -158,6 +158,15 @@
     repeating-conic-gradient(rgb(255 255 255 / 6%) 0 4deg, transparent 4deg 12deg);
 }
 
+.dial:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.lcd__freq {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
 .lcd__track--long {
   animation: track-scroll 8s linear infinite;
 }
