@@ -10,12 +10,14 @@
   --accent-amber: #ffad35;
   --accent-violet: #bd5cff;
   --accent-magenta: #ff4ecb;
+  --accent-pink: #ff7ac9;
+  --accent-pink-glow: rgb(255 122 201 / 35%);
   --accent-red: #ff4658;
   --text-primary: #f5f7fb;
   --text-secondary: #9aa6b5;
   --focus-ring: #fff0a8;
-  --station-accent: var(--lcd-blue);
-  --station-glow: rgb(0 168 255 / 24%);
+  --station-accent: var(--accent-pink);
+  --station-glow: var(--accent-pink-glow);
 
   /* Bisel / plástico */
   --bezel-black: #07080b;
