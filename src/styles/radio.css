@@ -169,6 +169,85 @@
   }
 }
 
+/* Responsive faceplate (V9) */
+@media (max-width: 959px) and (min-width: 600px) {
+  .faceplate-grid {
+    grid-template-columns: 26% 52% 22%;
+    gap: 10px;
+  }
+
+  .fp-silk,
+  .fp-brand {
+    font-size: 0.62rem;
+  }
+
+  .knob {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 599px) {
+  .radio-console {
+    padding: 12px;
+  }
+
+  .faceplate-inset {
+    padding: 10px;
+  }
+
+  .faceplate-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "center center"
+      "left right";
+  }
+
+  .fp-center {
+    grid-area: center;
+  }
+
+  .fp-left {
+    grid-area: left;
+    flex-direction: column;
+  }
+
+  .fp-right {
+    grid-area: right;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* En móvil: pantalla arriba, perilla izq, teclas en dos filas */
+  .fp-keys .presets {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .fp-keys .transport {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Ocultar serigrafía secundaria y AUX */
+  .aux-port,
+  .fp-silk {
+    display: none;
+  }
+
+  .fp-brand {
+    font-size: 0.62rem;
+  }
+
+  .knob {
+    width: 128px;
+    height: 128px;
+  }
+
+  .key {
+    min-height: 44px;
+  }
+}
+
 .radio-console--off {
   filter: brightness(0.55) saturate(0.6);
   transition: filter 0.7s ease;
