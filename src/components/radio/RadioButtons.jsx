@@ -1,5 +1,13 @@
-export default function RadioButtons({ disabled, reason, powerState, onTogglePower }) {
+export default function RadioButtons({
+  disabledReason,
+  powerState,
+  onTogglePower,
+  playbackStatus,
+  canPlayPause,
+  onTogglePlayPause,
+}) {
   const isOff = powerState === "off";
+  const isPlaying = playbackStatus === "playing";
   return (
     <div className="controls-row">
       <button
@@ -11,13 +19,32 @@ export default function RadioButtons({ disabled, reason, powerState, onTogglePow
       >
         POWER
       </button>
-      <button type="button" className="btn" disabled={disabled} title={disabled ? reason : "Reproducir / pausar"}>
-        PLAY/PAUSE
+      <button
+        type="button"
+        className="btn"
+        disabled={!canPlayPause}
+        title={!canPlayPause ? disabledReason : isPlaying ? "Pausar" : "Reproducir"}
+        aria-label={isPlaying ? "Pausar" : "Reproducir"}
+        onClick={onTogglePlayPause}
+      >
+        {isPlaying ? "PAUSE" : "PLAY"}
       </button>
-      <button type="button" className="btn" disabled={disabled} title={disabled ? reason : "Anterior"}>
+      <button
+        type="button"
+        className="btn"
+        disabled
+        title="PREV no disponible en esta versión"
+        aria-label="Anterior no disponible"
+      >
         PREV
       </button>
-      <button type="button" className="btn" disabled={disabled} title={disabled ? reason : "Siguiente"}>
+      <button
+        type="button"
+        className="btn"
+        disabled
+        title="NEXT llega con aleatorio (Fase 6)"
+        aria-label="Siguiente no disponible aún"
+      >
         NEXT
       </button>
     </div>
