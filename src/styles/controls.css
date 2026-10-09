@@ -257,6 +257,12 @@
   flex: 0 0 auto;
 }
 
+.key--attention {
+  border-color: var(--station-accent);
+  border-top-color: var(--station-accent);
+  box-shadow: 0 0 10px var(--station-glow), inset 0 1px 0 rgb(255 255 255 / 10%);
+}
+
 .key:not(:disabled):active {
   transform: translateY(1px);
   box-shadow: 0 0 0 #000, inset 0 2px 6px rgb(0 0 0 / 60%);
@@ -371,6 +377,11 @@
 
 .knob__pointer {
   display: none;
+}
+
+.radio-console--error .knob__ring {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 8px var(--accent-red), 0 0 22px rgb(255 70 88 / 30%);
 }
 
 /* Standby: anillo casi apagado */

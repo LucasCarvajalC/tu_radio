@@ -93,7 +93,13 @@ export default function RadioConsole({ player }) {
 
   return (
     <section
-      className={isOff ? "radio-console radio-console--off" : "radio-console"}
+      className={
+        isOff
+          ? "radio-console radio-console--off"
+          : state.playbackStatus === "error"
+            ? "radio-console radio-console--error"
+            : "radio-console"
+      }
       data-station={dataStation}
       aria-label={isOff ? "Radio apagada en standby" : "Radio encendida"}
     >
@@ -186,6 +192,7 @@ export default function RadioConsole({ player }) {
               canNext={canNext}
               onNext={player.nextTrack}
               hidePower
+              highlightPlay={state.playbackStatus === "paused" || state.activeKind === "birthday-finished"}
             />
           </div>
         </div>

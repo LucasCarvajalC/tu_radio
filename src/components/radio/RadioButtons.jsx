@@ -43,6 +43,7 @@ export default function RadioButtons({
   canNext,
   onNext,
   hidePower = false,
+  highlightPlay = false,
 }) {
   const isOff = powerState === "off";
   const isPlaying = playbackStatus === "playing";
@@ -61,7 +62,7 @@ export default function RadioButtons({
       )}
       <button
         type="button"
-        className="btn key"
+        className={highlightPlay ? "btn key key--attention" : "btn key"}
         disabled={!canPlayPause}
         title={!canPlayPause ? disabledReason : isPlaying ? "Pausar" : "Reproducir"}
         aria-label={isPlaying ? "Pausar" : "Reproducir"}
