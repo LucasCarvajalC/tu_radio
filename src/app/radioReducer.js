@@ -1,7 +1,10 @@
-// Estado Fase 3: energía + bienvenida global + volumen + error.
+// Estado Fase 5: energía + bienvenida global + selección + pista + volumen.
 export const initialRadioState = {
   powerState: "off",
   introStatus: "not-started",
+  selectedStationId: null,
+  currentTrackId: null,
+  activeKind: null,
   playbackStatus: "idle",
   volume: 0.7,
   errorMessage: null,
@@ -16,22 +19,20 @@ export function radioReducer(state, action) {
         powerState: "on",
         introStatus: "playing",
         playbackStatus: "loading",
+        activeKind: "global-intro",
         errorMessage: null,
       };
     case "POWER_OFF":
       return {
-        ...state,
-        powerState: "off",
-        introStatus: "not-started",
-        playbackStatus: "idle",
-        errorMessage: null,
+        ...initialRadioState,
+        volume: state.volume,
       };
     case "INTRO_PLAYING":
       if (state.powerState === "off") return state;
-      return { ...state, introStatus: "playing", playbackStatus: "playing", errorMessage: null };
+      return { ...state, introStatus: "playing", playbackStatus: "playing", activeKind: "global-intro", errorMessage: null };
     case "INTRO_COMPLETED":
       if (state.powerState === "off") return state;
-      return { ...state, introStatus: "completed", playbackStatus: "ended", errorMessage: null };
+      return { ...state, introStatus: "completed", playbackStatus: "idle", activeKind: null, errorMessage: null };
     case "INTRO_ERROR":
       if (state.powerState === "off") return state;
       return {
@@ -40,6 +41,41 @@ export function radioReducer(state, action) {
         playbackStatus: "error",
         errorMessage: action.message || "NO SE PUDO REPRODUCIR",
       };
+    case "SELECT_STATION":
+      if (state.powerState === "off") return state;
+      if (state.introStatus !== "completed") return state;
+      return {
+        ...state,
+        selectedStationId: action.stationId,
+        currentTrackId: null,
+        activeKind: action.kind || null,
+        playbackStatus: action.playbackStatus || "loading",
+        errorMessage: null,
+      };
+    case "STATION_INTRO_PLAYING":
+      if (state.powerState === "off") return state;
+      return { ...state, playbackStatus: "playing", activeKind: "station-intro", errorMessage: null };
+    case "STATION_INTRO_ERROR":
+      if (state.powerState === "off") return state;
+      return { ...state, playbackStatus: "error", errorMessage: action.message || "AUDIO NO DISPONIBLE" };
+    case "TRACK_PLAYING":
+      if (state.powerState === "off") return state;
+      return {
+        ...state,
+        currentTrackId: action.trackId || state.currentTrackId,
+        playbackStatus: "playing",
+        activeKind: "track",
+        errorMessage: null,
+      };
+    case "TRACK_PAUSED":
+      if (state.powerState === "off") return state;
+      return { ...state, playbackStatus: "paused" };
+    case "TRACK_ENDED":
+      if (state.powerState === "off") return state;
+      return { ...state, playbackStatus: "ended" };
+    case "TRACK_ERROR":
+      if (state.powerState === "off") return state;
+      return { ...state, playbackStatus: "error", errorMessage: action.message || "AUDIO NO DISPONIBLE" };
     case "VOLUME_SET": {
       const v = Math.min(1, Math.max(0, action.volume));
       return { ...state, volume: v };
