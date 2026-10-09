@@ -1,6 +1,12 @@
 // Catálogo de estaciones. Fuente única para IDs, rutas y temas.
 // Las rutas son relativas al servidor web (public/ -> /).
 // Sin audios reales aún: tracks vacíos, introSrc declarado.
+//
+// Para añadir una canción, edita SOLO este archivo:
+//   tracks: [{ id: "old-school-001", title: "Nombre", artist: "Artista",
+//              src: "/audio/stations/old-school/songs/song-001.mp3" }]
+// Y copia el mp3 a public/audio/stations/old-school/songs/song-001.mp3.
+// introSrc NUNCA entra en la bolsa aleatoria.
 
 export const GLOBAL_INTRO_SRC = "/audio/global/welcome-radio.mp3";
 export const BIRTHDAY_MESSAGE_SRC = "/audio/birthday/birthday-message.mp3";
