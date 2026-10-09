@@ -1,0 +1,19 @@
+:root {
+  --dashboard-bg: #07090d;
+  --dashboard-panel: #10141b;
+  --radio-shell: #171b22;
+  --radio-shell-highlight: #353d48;
+  --radio-edge: #06080b;
+  --lcd-bg: #020b19;
+  --lcd-blue: #00a8ff;
+  --lcd-cyan: #46f3ff;
+  --accent-amber: #ffad35;
+  --accent-violet: #bd5cff;
+  --accent-magenta: #ff4ecb;
+  --accent-red: #ff4658;
+  --text-primary: #f5f7fb;
+  --text-secondary: #9aa6b5;
+  --focus-ring: #fff0a8;
+  --station-accent: var(--lcd-blue);
+  --station-glow: rgb(0 168 255 / 24%);
+}
