@@ -5,6 +5,8 @@ export default function RadioButtons({
   playbackStatus,
   canPlayPause,
   onTogglePlayPause,
+  canNext,
+  onNext,
 }) {
   const isOff = powerState === "off";
   const isPlaying = playbackStatus === "playing";
@@ -41,9 +43,10 @@ export default function RadioButtons({
       <button
         type="button"
         className="btn"
-        disabled
-        title="NEXT llega con aleatorio (Fase 6)"
-        aria-label="Siguiente no disponible aún"
+        disabled={!canNext}
+        title={!canNext ? disabledReason : "Siguiente canción (consume la actual)"}
+        aria-label="Siguiente canción"
+        onClick={onNext}
       >
         NEXT
       </button>

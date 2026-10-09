@@ -2,6 +2,7 @@ import { useReducer, useCallback, useRef, useEffect } from "react";
 import { radioReducer, initialRadioState } from "../app/radioReducer.js";
 import { GLOBAL_INTRO_SRC, stations } from "../data/stations.js";
 import { toUserAudioError } from "../lib/audioErrors.js";
+import { nextFromQueue } from "../lib/shuffle.js";
 
 const DEV_SKIP_INTRO = import.meta.env.VITE_SKIP_INTRO === "true";
 
@@ -13,6 +14,7 @@ export function useRadioPlayer() {
   const [state, dispatch] = useReducer(radioReducer, initialRadioState);
   const audioRef = useRef(null);
   const tokenRef = useRef(0);
+  const queuesRef = useRef({});
   const stateRef = useRef(state);
   useEffect(() => {
     stateRef.current = state;
@@ -100,9 +102,9 @@ export function useRadioPlayer() {
     dispatch({ type: "INTRO_COMPLETED" });
   }, []);
 
-  // --- stations + tracks (Fase 5: intro de estación + primera pista simple) ---
+  // --- stations + tracks (Fase 6: bolsa aleatoria por emisora) ---
 
-  const playFirstTrackSimple = useCallback(
+  const playNextFromBag = useCallback(
     async (station, sessionToken) => {
       if (!station.tracks || station.tracks.length === 0) {
         // Emisora vacía: estado legible, sin bucle.
@@ -114,7 +116,16 @@ export function useRadioPlayer() {
         });
         return;
       }
-      const track = station.tracks[0];
+      const allIds = station.tracks.map((t) => t.id);
+      const prevQueue = queuesRef.current[station.id] || null;
+      const { queue: updated, trackId } = nextFromQueue(prevQueue, allIds);
+      queuesRef.current[station.id] = updated;
+      if (!trackId) return;
+      const track = station.tracks.find((t) => t.id === trackId) || null;
+      if (!track) {
+        dispatch({ type: "TRACK_ERROR", message: "AUDIO NO DISPONIBLE" });
+        return;
+      }
       dispatch({ type: "SELECT_STATION", stationId: station.id, kind: "track", playbackStatus: "loading" });
       try {
         const ok = await playSrc(track.src, sessionToken);
@@ -176,11 +187,16 @@ export function useRadioPlayer() {
         if (!station || station.type !== "music") return;
         // Verificar que no hubo cambio de emisora durante la espera.
         if (tokenRef.current !== tokenAtEnd) return;
-        playFirstTrackSimple(station, tokenAtEnd);
+        playNextFromBag(station, tokenAtEnd);
         return;
       }
       if (s.activeKind === "track") {
-        dispatch({ type: "TRACK_ENDED" });
+        // Avance continuo dentro de la misma emisora y misma sesión.
+        const station = findStation(s.selectedStationId);
+        if (!station || station.type !== "music") return;
+        if (tokenRef.current !== tokenAtEnd) return;
+        if (stateRef.current.powerState === "off") return;
+        playNextFromBag(station, tokenAtEnd);
         return;
       }
     };
@@ -201,7 +217,7 @@ export function useRadioPlayer() {
       el.removeEventListener("ended", onEnded);
       el.removeEventListener("error", onError);
     };
-  }, [playFirstTrackSimple]);
+  }, [playNextFromBag]);
 
   const play = useCallback(async () => {
     const s = stateRef.current;
@@ -237,6 +253,19 @@ export function useRadioPlayer() {
     else play();
   }, [pause, play]);
 
+  const nextTrack = useCallback(() => {
+    const s = stateRef.current;
+    if (s.powerState === "off") return;
+    if (s.introStatus !== "completed") return;
+    if (s.activeKind !== "track") return;
+    const station = findStation(s.selectedStationId);
+    if (!station || station.type !== "music") return;
+    if (!station.tracks || station.tracks.length === 0) return;
+    const sessionToken = tokenRef.current + 1;
+    tokenRef.current = sessionToken;
+    playNextFromBag(station, sessionToken);
+  }, [playNextFromBag]);
+
   const setVolume = useCallback((v) => {
     dispatch({ type: "VOLUME_SET", volume: v });
   }, []);
@@ -260,5 +289,6 @@ export function useRadioPlayer() {
     play,
     pause,
     togglePlayPause,
+    nextTrack,
   };
 }

@@ -56,6 +56,9 @@ function statusFor(player) {
   if (state.playbackStatus === "ended" && station.tracks.length === 0) {
     return { freq: station.frequency, name: station.name, track: "NO HAY CANCIONES EN ESTA FRECUENCIA", status: "END" };
   }
+  if (state.playbackStatus === "ended") {
+    return { freq: station.frequency, name: station.name, track: "Cargando siguiente...", status: "LOADING" };
+  }
   return { freq: station.frequency, name: station.name, track: "Elige una emisora", status: "READY" };
 }
 
@@ -70,6 +73,7 @@ export default function RadioConsole({ player }) {
   const dataStation = selected ? selected.id : "old-school";
   const isPlaying = state.playbackStatus === "playing";
   const canPlayPause = !isOff && (state.activeKind === "track" || state.activeKind === "station-intro" || state.activeKind === "global-intro") && (isPlaying || state.playbackStatus === "paused");
+  const canNext = !isOff && state.activeKind === "track" && !!selected && selected.type === "music" && selected.tracks.length > 0 && (isPlaying || state.playbackStatus === "paused" || state.playbackStatus === "ended");
 
   const lockedReason = isOff
     ? "Radio apagada — pulsa POWER"
@@ -136,6 +140,8 @@ export default function RadioConsole({ player }) {
             playbackStatus={state.playbackStatus}
             canPlayPause={canPlayPause}
             onTogglePlayPause={player.togglePlayPause}
+            canNext={canNext}
+            onNext={player.nextTrack}
           />
           <VolumeControl
             disabled={isOff}
