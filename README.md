@@ -82,6 +82,17 @@ Si la emisora queda vacía, muestra `NO HAY CANCIONES EN ESTA FRECUENCIA` sin ro
 
 `npm test` cubre shuffle (copia, permutación, ciclos, 0/1 pista), catálogo (duplicados, rutas, especial sin tracks) y reducer (bienvenida bloqueante, pausa no completa, cumpleaños aislado, volumen clamp, power-off). La validación con mp3 reales queda pendiente hasta que el dueño aporte los archivos (ver plan §21.5).
 
+## Diseño (rediseño visual)
+
+Frontal extraíble estilo autoestéreo 2000: faceplate apaisado negro piano
+sobre hueco DIN del tablero, perilla a la izquierda con aro metálico y
+anillo luminoso del color de la emisora, pantalla LCD central con
+ecualizador integrado, fila única de teclas numeradas + transporte y
+puerto AUX decorativo (inerte, `aria-hidden`). Marca ficticia `TU RADIO`,
+sin marcas reales. Detalles en `PLAN_REDISENO_VISUAL_RADIO_RETRO.md` y
+`docs/visual/NOTAS.md`. La verificación visual es manual con
+`npm run dev` (escritorio y 390 px); no hay capturas automatizadas.
+
 ## Despliegue (pausado)
 
 Sin desplegar por ahora a petición del dueño. Cuando se retome: `npm run build`, servir `dist/`, revisar peso total de `public/audio` (límites del host, no precargar todo, `preload="metadata"`).
