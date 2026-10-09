@@ -10,15 +10,17 @@
 .lcd__freq {
   font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
   font-size: 2rem;
+  font-weight: 600;
   color: var(--station-accent);
   letter-spacing: 0.06em;
+  text-shadow: 0 0 12px var(--station-glow), 0 0 2px currentColor;
 }
 
 .lcd__station {
   font-family: ui-monospace, Consolas, monospace;
   color: var(--text-primary);
-  letter-spacing: 0.2em;
-  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  font-size: 0.78rem;
   margin-top: 4px;
 }
 
@@ -127,9 +129,11 @@
   padding: 8px 14px;
   border-radius: 8px;
   border: 1px solid #000;
-  background: #222834;
+  border-top-color: #3a424e;
+  background: linear-gradient(180deg, #2b323d, #1a1f27);
   color: var(--text-primary);
   font-family: ui-monospace, Consolas, monospace;
+  box-shadow: 0 2px 0 #000, inset 0 1px 0 rgb(255 255 255 / 10%);
 }
 
 .btn:disabled {
@@ -149,6 +153,9 @@
 
 .dial {
   transition: transform 0.25s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  background:
+    radial-gradient(circle at 30% 30%, #3a424e, #12151b 70%),
+    repeating-conic-gradient(rgb(255 255 255 / 6%) 0 4deg, transparent 4deg 12deg);
 }
 
 .lcd__track--long {

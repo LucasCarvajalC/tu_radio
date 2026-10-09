@@ -77,6 +77,11 @@
 
 .radio-console--off {
   filter: brightness(0.55) saturate(0.6);
+  transition: filter 0.7s ease;
+}
+
+.radio-console:not(.radio-console--off) {
+  transition: filter 0.7s ease, box-shadow 0.3s ease;
 }
 
 .radio-console--off .lcd {
