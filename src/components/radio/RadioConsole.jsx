@@ -114,6 +114,7 @@ export default function RadioConsole({ player }) {
     >
       <span className="fp-screw fp-screw--left" aria-hidden="true" />
       <span className="fp-screw fp-screw--right" aria-hidden="true" />
+      <div className="cd-slot" aria-hidden="true" />
       <div className="faceplate-inset faceplate-grid">
         {/* Zona izquierda: potencia, volumen y perilla */}
         <div className="fp-left">
@@ -155,7 +156,6 @@ export default function RadioConsole({ player }) {
 
         {/* Zona centro: serigrafía, pantalla y fila única de teclas */}
         <div className="fp-center">
-          <div className="cd-slot" aria-hidden="true" />
           <div className="fp-silk" aria-hidden="true">
             <span>MP3 · FM STEREO</span>
           </div>
