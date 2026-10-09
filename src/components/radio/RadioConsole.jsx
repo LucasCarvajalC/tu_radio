@@ -125,7 +125,11 @@ export default function RadioConsole({ player }) {
             aria-pressed={!isOff}
             onClick={player.togglePower}
           >
-            POWER
+            <svg className="key__icon power-key__icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3 L12 11" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+              <path d="M6.3 6.5 A8 8 0 1 0 17.7 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+            </svg>
+            <span>POWER</span>
           </button>
           <button
             type="button"
