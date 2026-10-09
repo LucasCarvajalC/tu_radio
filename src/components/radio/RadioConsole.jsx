@@ -2,7 +2,6 @@ import RadioDisplay from "./RadioDisplay.jsx";
 import FrequencyDial from "./FrequencyDial.jsx";
 import RadioButtons from "./RadioButtons.jsx";
 import VolumeControl from "./VolumeControl.jsx";
-import Equalizer from "./Equalizer.jsx";
 import StationPresets from "./StationPresets.jsx";
 import AudioErrorMessage from "../overlays/AudioErrorMessage.jsx";
 import { stations } from "../../data/stations.js";
@@ -137,6 +136,7 @@ export default function RadioConsole({ player }) {
             trackText={info.track}
             status={info.status}
             volume={volValue}
+            eqActive={isPlaying}
           />
           {showRetry && (
             <AudioErrorMessage
@@ -158,7 +158,6 @@ export default function RadioConsole({ player }) {
               </button>
             </div>
           )}
-          <Equalizer active={isPlaying} />
           {showReplay && (
             <div className="lcd__status">
               <span>Mensaje terminado — pulsa para repetir</span>
