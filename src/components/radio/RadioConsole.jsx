@@ -1,3 +1,4 @@
+import { useState } from "react";
 import RadioDisplay from "./RadioDisplay.jsx";
 import FrequencyDial from "./FrequencyDial.jsx";
 import RadioButtons from "./RadioButtons.jsx";
@@ -68,6 +69,7 @@ function statusFor(player) {
 
 export default function RadioConsole({ player }) {
   const { state } = player;
+  const [dimmed, setDimmed] = useState(false);
   const isOff = state.powerState === "off";
   const welcomeLock = state.powerState === "on" && state.introStatus !== "completed";
   const stationsEnabled = !isOff && !welcomeLock;
@@ -78,6 +80,9 @@ export default function RadioConsole({ player }) {
   const isPlaying = state.playbackStatus === "playing";
   const canPlayPause = !isOff && (state.activeKind === "track" || state.activeKind === "station-intro" || state.activeKind === "global-intro" || state.activeKind === "birthday-message" || state.activeKind === "birthday-finished") && (isPlaying || state.playbackStatus === "paused" || state.activeKind === "birthday-finished");
   const canNext = !isOff && state.activeKind === "track" && !!selected && selected.type === "music" && selected.tracks.length > 0 && (isPlaying || state.playbackStatus === "paused" || state.playbackStatus === "ended");
+  const hasSource = !isOff && !!state.activeKind && state.activeKind !== "birthday-pending" && (isPlaying || state.playbackStatus === "paused" || state.playbackStatus === "ended");
+  const canMute = !isOff;
+  const muted = state.volume === 0;
   const showReplay = !isOff && selected?.type === "special" && state.activeKind === "birthday-finished";
 
   const lockedReason = isOff
@@ -97,8 +102,12 @@ export default function RadioConsole({ player }) {
         isOff
           ? "radio-console radio-console--off"
           : state.playbackStatus === "error"
-            ? "radio-console radio-console--error"
-            : "radio-console"
+            ? dimmed
+              ? "radio-console radio-console--error lcd-dim"
+              : "radio-console radio-console--error"
+            : dimmed
+              ? "radio-console lcd-dim"
+              : "radio-console"
       }
       data-station={dataStation}
       aria-label={isOff ? "Radio apagada en standby" : "Radio encendida"}
@@ -116,6 +125,17 @@ export default function RadioConsole({ player }) {
             onClick={player.togglePower}
           >
             POWER
+          </button>
+          <button
+            type="button"
+            className="btn key"
+            disabled={isOff}
+            title={isOff ? "Radio apagada — pulsa POWER" : dimmed ? "Brillo normal" : "Atenuar pantalla"}
+            aria-label={dimmed ? "Brillo normal de pantalla" : "Atenuar pantalla"}
+            aria-pressed={dimmed}
+            onClick={() => setDimmed((d) => !d)}
+          >
+            DIMMER
           </button>
           <VolumeControl
             disabled={isOff}
@@ -135,6 +155,7 @@ export default function RadioConsole({ player }) {
 
         {/* Zona centro: serigrafía, pantalla y fila única de teclas */}
         <div className="fp-center">
+          <div className="cd-slot" aria-hidden="true" />
           <div className="fp-silk" aria-hidden="true">
             <span>MP3 · FM STEREO</span>
           </div>
@@ -193,13 +214,21 @@ export default function RadioConsole({ player }) {
               onNext={player.nextTrack}
               hidePower
               highlightPlay={state.playbackStatus === "paused" || state.activeKind === "birthday-finished"}
+              canReplay={hasSource}
+              onReplay={player.replayCurrent}
+              muted={muted}
+              canMute={canMute}
+              onToggleMute={player.toggleMute}
             />
           </div>
         </div>
 
         {/* Zona derecha: marca y AUX decorativo */}
         <div className="fp-right">
-          <div className="fp-brand" aria-hidden="true">TU RADIO</div>
+          <div className="fp-brand" aria-hidden="true">
+            <span className="fp-brand__name">TU RADIO</span>
+            <span className="fp-brand__model">CDX-2004 · SUPER BASS · 45W×4</span>
+          </div>
           <div className="aux-port" aria-hidden="true">
             <span className="aux-port__slot" />
             <span className="aux-port__label">AUX</span>

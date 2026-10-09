@@ -33,6 +33,15 @@ function IconNext() {
   );
 }
 
+function IconReplay() {
+  return (
+    <svg className="key__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+      <path d="M6 1 A5 5 0 1 1 1 6" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M1 1 L1 6 L5.5 4 Z" fill="currentColor" />
+    </svg>
+  );
+}
+
 export default function RadioButtons({
   disabledReason,
   powerState,
@@ -44,6 +53,11 @@ export default function RadioButtons({
   onNext,
   hidePower = false,
   highlightPlay = false,
+  canReplay,
+  onReplay,
+  muted,
+  canMute,
+  onToggleMute,
 }) {
   const isOff = powerState === "off";
   const isPlaying = playbackStatus === "playing";
@@ -60,6 +74,17 @@ export default function RadioButtons({
           POWER
         </button>
       )}
+      <button
+        type="button"
+        className="btn key"
+        disabled={!canReplay}
+        title={!canReplay ? disabledReason : "Reiniciar desde el principio"}
+        aria-label="Reiniciar pista actual"
+        onClick={onReplay}
+      >
+        <IconReplay />
+        REPLAY
+      </button>
       <button
         type="button"
         className={highlightPlay ? "btn key key--attention" : "btn key"}
@@ -91,6 +116,17 @@ export default function RadioButtons({
       >
         <IconNext />
         NEXT
+      </button>
+      <button
+        type="button"
+        className="btn key"
+        disabled={!canMute}
+        title={!canMute ? disabledReason : muted ? "Quitar silencio" : "Silenciar"}
+        aria-label={muted ? "Quitar silencio" : "Silenciar"}
+        aria-pressed={muted}
+        onClick={onToggleMute}
+      >
+        MUTE
       </button>
     </div>
   );

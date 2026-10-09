@@ -14,6 +14,7 @@ export function useRadioPlayer() {
   const [state, dispatch] = useReducer(radioReducer, initialRadioState);
   const audioRef = useRef(null);
   const tokenRef = useRef(0);
+  const prevVolumeRef = useRef(0.7);
   const queuesRef = useRef({});
   const stateRef = useRef(state);
   useEffect(() => {
@@ -275,6 +276,35 @@ export function useRadioPlayer() {
     else play();
   }, [pause, play]);
 
+  const toggleMute = useCallback(() => {
+    const v = stateRef.current.volume;
+    if (v > 0) {
+      prevVolumeRef.current = v;
+      dispatch({ type: "VOLUME_SET", volume: 0 });
+    } else {
+      dispatch({ type: "VOLUME_SET", volume: prevVolumeRef.current || 0.7 });
+    }
+  }, []);
+
+  const replayCurrent = useCallback(async () => {
+    const el = audioRef.current;
+    const s = stateRef.current;
+    if (!el || s.powerState === "off") return;
+    if (!el.getAttribute("src") && !el.src) return;
+    try {
+      el.currentTime = 0;
+      await el.play();
+      if (stateRef.current.powerState === "off") return;
+      const kind = stateRef.current.activeKind;
+      if (kind === "track") dispatch({ type: "TRACK_PLAYING" });
+      else if (kind === "station-intro") dispatch({ type: "STATION_INTRO_PLAYING" });
+      else if (kind === "global-intro") dispatch({ type: "INTRO_PLAYING" });
+      else if (kind === "birthday-message" || kind === "birthday-finished") dispatch({ type: "BIRTHDAY_PLAYING" });
+    } catch (err) {
+      dispatch({ type: "TRACK_ERROR", message: toUserAudioError(err) });
+    }
+  }, []);
+
   const nextTrack = useCallback(() => {
     const s = stateRef.current;
     if (s.powerState === "off") return;
@@ -309,6 +339,8 @@ export function useRadioPlayer() {
     devSkipEnabled: DEV_SKIP_INTRO,
     selectStation,
     replayBirthday,
+    replayCurrent,
+    toggleMute,
     play,
     pause,
     togglePlayPause,
