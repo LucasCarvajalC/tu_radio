@@ -86,7 +86,7 @@
 /* Faceplate: 3 zonas (V3) */
 .faceplate-grid {
   display: grid;
-  grid-template-columns: 24% 54% 22%;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 2.5fr) minmax(0, 1fr);
   gap: 14px;
   align-items: start;
 }
@@ -96,10 +96,15 @@
   flex-direction: column;
   gap: 10px;
   align-items: center;
+  min-width: 0;
 }
 
 .fp-center {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
 }
 
 .fp-silk {
@@ -121,6 +126,8 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 12px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .fp-brand {
@@ -129,10 +136,39 @@
   font-size: 0.72rem;
   letter-spacing: 0.3em;
   font-family: system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  max-width: 100%;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.fp-brand__model {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  opacity: 0.7;
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+/* Ranura de CD decorativa (inerte) */
+.cd-slot {
+  height: 7px;
+  background: #000;
+  border-radius: 4px;
+  margin: 0 8px 10px;
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 90%), 0 1px 0 rgb(255 255 255 / 8%);
+}
+
+/* DIMMER: pantalla atenuada (real, conmuta por botón) */
+.lcd-dim .lcd {
+  filter: brightness(0.55);
 }
 
 .aux-port {
-  width: 84px;
+  width: min(84px, 100%);
+  align-self: flex-end;
   padding: 10px 8px;
   border: 1px solid #1c232e;
   border-radius: 8px;
