@@ -119,6 +119,7 @@ export default function RadioConsole({ player }) {
           />
           <FrequencyDial
             disabled={!stationsEnabled}
+            locked={welcomeLock}
             stations={stations}
             selectedId={state.selectedStationId}
             onSelect={player.selectStation}

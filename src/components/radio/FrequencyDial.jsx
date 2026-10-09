@@ -1,7 +1,7 @@
-export default function FrequencyDial({ disabled, stations, selectedId, onSelect }) {
+export default function FrequencyDial({ disabled, stations, selectedId, onSelect, locked = false }) {
   const ids = stations.map((s) => s.id);
   const idx = Math.max(0, ids.indexOf(selectedId));
-  const rotation = ids.length > 1 ? (idx / (ids.length - 1)) * 270 - 135 : 0;
+  const angle = ids.length > 1 ? (idx / (ids.length - 1)) * 270 - 135 : 0;
   const cycle = () => {
     if (disabled || !onSelect) return;
     const next = ids[(idx + 1 + ids.length) % ids.length];
@@ -19,19 +19,23 @@ export default function FrequencyDial({ disabled, stations, selectedId, onSelect
   };
   return (
     <div className="dial-wrap">
-      <button
-        type="button"
-        className="dial"
-        disabled={disabled}
-        title={disabled ? "Enciende y completa la bienvenida para sintonizar" : "Girar: siguiente emisora (flechas también)"}
-        aria-label="Perilla selectora de emisora"
-        onClick={cycle}
-        onKeyDown={onKeyDown}
-        style={{ transform: `rotate(${rotation}deg)` }}
-      >
-        <span style={{ display: "inline-block", transform: `rotate(${-rotation}deg)` }}>◉</span>
-      </button>
-      <small style={{ color: "var(--text-secondary)" }}>TUNE</small>
+      <div className={locked ? "knob knob--locked" : "knob"} style={{ "--knob-angle": `${angle}deg` }}>
+        <div className="knob__ring" aria-hidden="true" />
+        <button
+          type="button"
+          className="knob__body"
+          disabled={disabled}
+          title={disabled ? "Enciende y completa la bienvenida para sintonizar" : "Girar: siguiente emisora (flechas también)"}
+          aria-label="Perilla selectora de emisora"
+          onClick={cycle}
+          onKeyDown={onKeyDown}
+        >
+          <span className="knob__cap" aria-hidden="true">
+            <span className="knob__pointer" aria-hidden="true" />
+          </span>
+        </button>
+      </div>
+      <small className="dial-caption">TUNE</small>
     </div>
   );
 }
