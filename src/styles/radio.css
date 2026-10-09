@@ -1,13 +1,36 @@
 .radio-console {
-  --station-accent: var(--lcd-blue);
-  --station-glow: rgb(0 168 255 / 24%);
-  background: linear-gradient(180deg, var(--radio-shell-highlight), var(--radio-shell) 30%, var(--radio-edge));
-  border: 1px solid #000;
-  border-radius: 18px;
-  padding: 20px;
+  --station-accent: #2fa8ff;
+  --station-glow: rgb(47 168 255 / 35%);
+  position: relative;
+  width: min(100%, var(--faceplate-max-width));
+  margin-inline: auto;
+  background: linear-gradient(180deg, var(--bezel-gloss-top), var(--bezel-gloss-mid) 35%, var(--bezel-gloss-bot));
+  border: 1px solid var(--bezel-chamfer);
+  border-radius: var(--faceplate-radius) / calc(var(--faceplate-radius) * 1.4);
+  padding: 20px 22px;
   color: var(--text-primary);
-  box-shadow: 0 24px 60px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 12%);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 14%);
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+}
+
+/* Reflejo superior del bisel */
+.radio-console::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 22%), transparent);
+  pointer-events: none;
+}
+
+/* Marco interior hundido */
+.faceplate-inset {
+  background: var(--inset-panel);
+  border: 1px solid #000;
+  border-radius: 10px;
+  box-shadow: inset 0 4px 14px rgb(0 0 0 / 80%), 0 1px 0 rgb(255 255 255 / 5%);
+  padding: 14px;
 }
 
 .radio-console[data-station="old-school"] {
@@ -35,28 +58,109 @@
   --station-glow: rgb(255 70 88 / 26%);
 }
 
-.radio-shell__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--text-secondary);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  font-family: ui-monospace, Consolas, monospace;
-}
-
-.cd-slot {
-  height: 8px;
-  background: #000;
-  border-radius: 4px;
-  margin: 12px 4px;
-  box-shadow: inset 0 1px 3px rgb(0 0 0 / 90%), 0 1px 0 rgb(255 255 255 / 8%);
-}
-
 .radio-main {
   display: grid;
   grid-template-columns: 1fr 190px;
   gap: 20px;
+}
+
+/* Tornillos mínimos del frontal (decorativos, inertes) */
+.fp-screw {
+  position: absolute;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #4a515c, #14171c 70%);
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 80%);
+}
+
+.fp-screw--left {
+  left: 10px;
+}
+
+.fp-screw--right {
+  right: 10px;
+}
+
+/* Faceplate: 3 zonas (V3) */
+.faceplate-grid {
+  display: grid;
+  grid-template-columns: 24% 54% 22%;
+  gap: 14px;
+  align-items: start;
+}
+
+.fp-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.fp-center {
+  min-width: 0;
+}
+
+.fp-silk {
+  text-align: center;
+  color: var(--text-secondary);
+  opacity: 0.75;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  font-family: system-ui, sans-serif;
+  margin-bottom: 8px;
+}
+
+.fp-keys {
+  margin-top: 10px;
+}
+
+.fp-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.fp-brand {
+  color: var(--text-secondary);
+  opacity: 0.8;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  font-family: system-ui, sans-serif;
+}
+
+.aux-port {
+  width: 84px;
+  padding: 10px 8px;
+  border: 1px solid #1c232e;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #0d1117, #06080c);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.aux-port__slot {
+  width: 44px;
+  height: 8px;
+  border-radius: 4px;
+  background: #000;
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 90%);
+}
+
+.aux-port__label {
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.volume--column {
+  flex-direction: column;
 }
 
 @media (max-width: 720px) {
@@ -65,14 +169,83 @@
   }
 }
 
-.radio-brand {
-  margin-top: 12px;
-  display: flex;
-  justify-content: space-between;
-  color: var(--text-secondary);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  font-family: ui-monospace, Consolas, monospace;
+/* Responsive faceplate (V9) */
+@media (max-width: 959px) and (min-width: 600px) {
+  .faceplate-grid {
+    grid-template-columns: 26% 52% 22%;
+    gap: 10px;
+  }
+
+  .fp-silk,
+  .fp-brand {
+    font-size: 0.62rem;
+  }
+
+  .knob {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 599px) {
+  .radio-console {
+    padding: 12px;
+  }
+
+  .faceplate-inset {
+    padding: 10px;
+  }
+
+  .faceplate-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "center center"
+      "left right";
+  }
+
+  .fp-center {
+    grid-area: center;
+  }
+
+  .fp-left {
+    grid-area: left;
+    flex-direction: column;
+  }
+
+  .fp-right {
+    grid-area: right;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* En móvil: pantalla arriba, perilla izq, teclas en dos filas */
+  .fp-keys .presets {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .fp-keys .transport {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Ocultar serigrafía secundaria y AUX */
+  .aux-port,
+  .fp-silk {
+    display: none;
+  }
+
+  .fp-brand {
+    font-size: 0.62rem;
+  }
+
+  .knob {
+    width: 128px;
+    height: 128px;
+  }
+
+  .key {
+    min-height: 44px;
+  }
 }
 
 .radio-console--off {

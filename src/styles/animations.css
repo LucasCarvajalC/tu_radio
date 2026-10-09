@@ -2,15 +2,18 @@
   animation: standby-pulse 2.4s ease-in-out infinite;
 }
 
+/* Solo opacity: el resplandor ámbar es estático por clase */
 @keyframes standby-pulse {
   0%, 100% {
     opacity: 0.62;
-    box-shadow: 0 0 4px rgb(255 173 53 / 18%);
   }
   50% {
     opacity: 1;
-    box-shadow: 0 0 10px rgb(255 173 53 / 45%), 0 0 22px rgb(255 173 53 / 18%);
   }
+}
+
+.power-button--standby {
+  box-shadow: 0 0 10px rgb(255 173 53 / 30%), 0 2px 0 #000;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -25,7 +28,11 @@
     animation: none !important;
   }
 
-  .dial {
-    transition: none;
+  .dial,
+  .knob__cap,
+  .knob__ring,
+  .radio-console,
+  .radio-console--off {
+    transition: none !important;
   }
 }

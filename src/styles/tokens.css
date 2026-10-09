@@ -16,4 +16,29 @@
   --focus-ring: #fff0a8;
   --station-accent: var(--lcd-blue);
   --station-glow: rgb(0 168 255 / 24%);
+
+  /* Bisel / plástico */
+  --bezel-black: #07080b;
+  --bezel-gloss-top: #2b303a;
+  --bezel-gloss-mid: #11141a;
+  --bezel-gloss-bot: #050608;
+  --bezel-chamfer: #1b1f27;
+  --inset-panel: #0b0d12;
+
+  /* Metal de la perilla */
+  --metal-light: #8a93a1;
+  --metal-mid: #4a515c;
+  --metal-dark: #20242b;
+
+  /* Iluminación (azul por defecto) */
+  --key-backlight: var(--station-accent);
+
+  /* Pantalla */
+  --lcd-text: #cfe9ff;
+  --lcd-text-dim: rgb(207 233 255 / 38%);
+
+  /* Medidas del equipo */
+  --faceplate-ratio: 3.3 / 1;
+  --faceplate-max-width: 1040px;
+  --faceplate-radius: 14px;
 }
