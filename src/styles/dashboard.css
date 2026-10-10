@@ -202,11 +202,12 @@
 
 .birthday-sparkle {
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: 22px;
+  height: 22px;
   background: var(--birthday-gold);
   opacity: 0;
   clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  filter: drop-shadow(0 0 8px rgb(255 224 163 / 80%));
   animation: birthday-sparkle-twinkle 6s ease-in-out infinite;
 }
 
@@ -219,18 +220,20 @@
 .birthday-sparkle--2 {
   right: 9%;
   top: 30%;
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   background: var(--birthday-white);
+  filter: drop-shadow(0 0 8px rgb(255 245 251 / 80%));
   animation-delay: 2.6s;
 }
 
 .birthday-sparkle--3 {
   left: 14%;
   bottom: 16%;
-  width: 11px;
-  height: 11px;
+  width: 18px;
+  height: 18px;
   background: var(--birthday-lavender);
+  filter: drop-shadow(0 0 8px rgb(201 184 255 / 80%));
   animation-delay: 4.2s;
 }
 

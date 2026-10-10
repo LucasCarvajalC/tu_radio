@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 // y espaciados en laterales. Un solo rAF, limpieza total al desmontar.
 // No lee el audio real ni toca la lógica de reproducción.
 const COLORS = ["#f8c8e8", "#f4a8d4", "#c9b8ff", "#ffe0a3", "#fff5fb"];
-const MAX_MOTES = 26;
-const MAX_SPARKS = 90;
+const MAX_MOTES = 48;
+const MAX_SPARKS = 170;
 
 function rand(min, max) {
   return min + Math.random() * (max - min);
@@ -44,13 +44,13 @@ export default function BirthdayFireworks({ finale = false }) {
     window.addEventListener("resize", resize);
 
     const smallScreen = window.innerWidth < 600;
-    const motes = Array.from({ length: smallScreen ? 12 : MAX_MOTES }, () => ({
+    const motes = Array.from({ length: smallScreen ? 22 : MAX_MOTES }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
-      r: rand(0.8, 2.4),
-      vy: rand(4, 14),
-      vx: rand(-6, 6),
-      alpha: rand(0.15, 0.5),
+      r: rand(1.2, 3.4),
+      vy: rand(6, 18),
+      vx: rand(-8, 8),
+      alpha: rand(0.3, 0.8),
       fade: rand(0.05, 0.2),
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
       phase: Math.random() * Math.PI * 2,
@@ -64,18 +64,18 @@ export default function BirthdayFireworks({ finale = false }) {
     const burst = (big) => {
       if (sparks.length > MAX_SPARKS) return;
       const { x, y } = pickSide(window.innerWidth);
-      const count = big ? 42 : 22;
+      const count = big ? 75 : 42;
       for (let i = 0; i < count; i += 1) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = rand(30, big ? 150 : 110);
+        const speed = rand(40, big ? 190 : 140);
         sparks.push({
           x,
           y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
           life: 1,
-          decay: rand(0.35, 0.7),
-          r: rand(1, 2.6),
+          decay: rand(0.28, 0.55),
+          r: rand(1.4, 3.4),
           color: COLORS[Math.floor(Math.random() * COLORS.length)],
         });
       }
@@ -105,7 +105,7 @@ export default function BirthdayFireworks({ finale = false }) {
 
       if (now >= nextBurst) {
         burst(false);
-        nextBurst = now + (smallScreen ? rand(6000, 11000) : rand(4000, 8000));
+        nextBurst = now + (smallScreen ? rand(4000, 8000) : rand(2500, 5000));
       }
       if (finaleRef.current && !finaleDone) {
         finaleDone = true;
