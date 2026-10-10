@@ -13,15 +13,18 @@ export default function RadioDisplay({
   stateLabel = null,
   welcomeLine = null,
   warm = false,
+  birthdayTitle = null,
+  birthdayAccent = null,
 }) {
   const long = (trackText || "").length > 28;
   const shownLabel = stateLabel || status;
+  const fullBirthday = birthdayTitle && birthdayAccent ? `${birthdayTitle} ${birthdayAccent}` : null;
   return (
     <div
       className={warm ? "lcd lcd--bezel lcd--warm" : "lcd lcd--bezel"}
       role="status"
       aria-live="polite"
-      aria-label={`${stationName} ${frequency} ${trackText} ${shownLabel}`}
+      aria-label={`${fullBirthday || stationName} ${frequency} ${fullBirthday ? shownLabel : trackText} ${shownLabel}`}
     >
       <div className="lcd__glass" aria-hidden="true" />
       <div className="lcd__top-row">
@@ -37,20 +40,32 @@ export default function RadioDisplay({
         )}
       </div>
       <div className="lcd__mid-row">
-        <div className="lcd__station-line">
-          <span className="lcd__station">{stationName}</span>
-          {welcomeLine && <span className="lcd__welcome">{welcomeLine}</span>}
-        </div>
+        {fullBirthday ? (
+          <div className="lcd__bday lcd__bday--enter">
+            <span className="lcd__bday-label">MENSAJE ESPECIAL</span>
+            <span className="lcd__bday-title">
+              {birthdayTitle} <span className="lcd__bday-accent">{birthdayAccent}</span>
+            </span>
+            <span className="lcd__bday-sub">UN MENSAJE HECHO PARA TI</span>
+          </div>
+        ) : (
+          <div className="lcd__station-line">
+            <span className="lcd__station">{stationName}</span>
+            {welcomeLine && <span className="lcd__welcome">{welcomeLine}</span>}
+          </div>
+        )}
         <Equalizer active={eqActive} />
       </div>
-      <div className="lcd__line2">
-        <span
-          className={long ? "lcd__track lcd__track--long" : "lcd__track"}
-          title={trackText}
-        >
-          {trackText}
-        </span>
-      </div>
+      {!fullBirthday && (
+        <div className="lcd__line2">
+          <span
+            className={long ? "lcd__track lcd__track--long" : "lcd__track"}
+            title={trackText}
+          >
+            {trackText}
+          </span>
+        </div>
+      )}
       <div className="lcd__wave" aria-hidden="true">
         <svg viewBox="0 0 200 24" preserveAspectRatio="none">
           <path

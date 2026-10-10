@@ -201,6 +201,8 @@ export default function RadioConsole({ player }) {
             stateLabel={label}
             welcomeLine={isWelcome ? personalization.welcomeLine : null}
             warm={warm}
+            birthdayTitle={isBirthday ? personalization.birthdayTitle : null}
+            birthdayAccent={isBirthday ? personalization.birthdayTitleAccent : null}
           />
           {showRetry && (
             <AudioErrorMessage
