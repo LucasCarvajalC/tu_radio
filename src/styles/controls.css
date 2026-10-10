@@ -607,6 +607,15 @@
   opacity: 0.4;
 }
 
+/* Arrastre circular: respuesta 1:1 sin transición */
+.knob--dragging .knob__cap {
+  transition: none;
+}
+
+.knob--dragging .knob__body {
+  cursor: grabbing;
+}
+
 .lcd__freq {
   font-size: clamp(1.5rem, 5vw, 2rem);
 }
