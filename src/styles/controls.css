@@ -289,6 +289,22 @@
   }
 }
 
+@media (max-width: 599px) {
+  .lcd__bday-title {
+    font-size: 0.95rem;
+  }
+
+  .birthday-bg__halo--main {
+    width: 420px;
+    height: 240px;
+  }
+
+  .birthday-bg__halo--side {
+    width: 260px;
+    height: 170px;
+  }
+}
+
 .eq--active span {
   animation: eq-bounce 0.9s ease-in-out infinite;
 }
