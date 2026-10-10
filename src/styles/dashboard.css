@@ -134,7 +134,7 @@
   pointer-events: none;
   background:
     radial-gradient(900px 480px at 50% 42%, var(--birthday-bg-mid) 0%, transparent 65%),
-    linear-gradient(180deg, #171021 0%, var(--birthday-bg) 45%, #0b0712 100%);
+    linear-gradient(180deg, #241428 0%, var(--birthday-bg) 45%, #0b0712 100%);
 }
 
 .dashboard[data-station="birthday"] .birthday-bg {
@@ -149,30 +149,30 @@
 }
 
 .birthday-bg__halo--main {
-  width: 620px;
-  height: 340px;
+  width: 680px;
+  height: 380px;
   left: 50%;
   top: 34%;
   transform: translate(-50%, -50%);
-  background: rgb(248 200 232 / 22%);
+  background: rgb(248 200 232 / 38%);
 }
 
 .birthday-bg__halo--side {
-  width: 420px;
-  height: 260px;
+  width: 460px;
+  height: 290px;
   left: 12%;
   top: 22%;
-  background: rgb(201 184 255 / 16%);
+  background: rgb(201 184 255 / 28%);
   animation-delay: -2.5s;
 }
 
 .birthday-bg__halo--floor {
-  width: 720px;
-  height: 150px;
+  width: 760px;
+  height: 170px;
   left: 50%;
   bottom: 4%;
   transform: translateX(-50%);
-  background: rgb(244 168 212 / 12%);
+  background: rgb(244 168 212 / 22%);
   animation-delay: -4.5s;
 }
 
