@@ -1,17 +1,18 @@
 .lcd {
-  background: var(--lcd-bg);
+  background: linear-gradient(180deg, var(--lcd-bg-top, #06142a), var(--lcd-bg-bottom, #020812));
   border-radius: 10px;
   padding: 14px 16px;
   border: 1px solid rgb(255 122 201 / 30%);
   box-shadow: inset 0 0 24px rgb(0 0 0 / 80%), 0 0 18px var(--station-glow);
-  min-height: 118px;
+  min-height: 150px;
   position: relative;
   overflow: hidden;
+  transition: box-shadow 1.5s ease, border-color 1.5s ease;
 }
 
 /* Marco hundido con bisel doble + reflejo diagonal */
 .lcd--bezel {
-  background: var(--lcd-bg);
+  background: linear-gradient(180deg, var(--lcd-bg-top, #06142a), var(--lcd-bg-bottom, #020812));
   border: 1px solid #000;
   outline: 1px solid rgb(207 233 255 / 12%);
   outline-offset: -4px;
@@ -24,6 +25,87 @@
   inset: 0;
   background: linear-gradient(115deg, transparent 40%, rgb(255 255 255 / 5%) 48%, transparent 56%);
   pointer-events: none;
+}
+
+/* Momentos cálidos: tinte dorado/rosa suave en pantalla */
+.lcd--warm {
+  border-color: rgb(255 199 102 / 45%);
+  box-shadow: inset 0 4px 16px rgb(0 0 0 / 85%), 0 0 22px rgb(255 199 102 / 30%);
+}
+
+.lcd__glass {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 40%, rgb(255 255 255 / 5%) 48%, transparent 56%);
+  pointer-events: none;
+}
+
+.lcd__top-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.lcd__onair {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgb(207 233 255 / 20%);
+  color: var(--lcd-text-dim);
+  opacity: 0.5;
+}
+
+.lcd__onair--on {
+  color: #0a0d13;
+  background: var(--station-accent);
+  border-color: var(--station-accent);
+  opacity: 1;
+  animation: onair-pulse 2s ease-in-out infinite;
+}
+
+@keyframes onair-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.lcd__trk {
+  margin-left: auto;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--lcd-text-dim);
+}
+
+.lcd__mid-row {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.lcd__station-line {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.lcd__welcome {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--warm-gold, #ffc766);
+  opacity: 0.9;
+}
+
+.lcd__mid-row .eq {
+  flex: 0 0 auto;
+  height: 44px;
+  min-width: 160px;
+  max-width: 45%;
 }
 
 .lcd__line1 {
@@ -46,6 +128,19 @@
   flex-direction: column;
   gap: 2px;
   min-width: 0;
+}
+
+.lcd__wave {
+  margin-top: 4px;
+  height: 22px;
+  color: var(--station-accent);
+  opacity: 0.22;
+}
+
+.lcd__wave svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .lcd__indicators {
@@ -115,41 +210,36 @@
   color: var(--text-secondary);
 }
 
+/* Ecualizador espectacular (§V6): 20 barras, 4 tonos, solo transform */
 .eq {
   display: flex;
   gap: 4px;
   align-items: flex-end;
-  height: 28px;
-  margin-top: 10px;
+  height: 44px;
+  margin-top: 0;
 }
 
 .eq span {
-  width: 8px;
-  background: var(--station-accent);
-  opacity: 0.85;
+  flex: 1 1 0;
+  min-width: 5px;
   border-radius: 2px;
   height: 30%;
+  transform: scaleY(0.5);
+  transform-origin: bottom;
 }
+
+.eq__bar--1 { background: linear-gradient(180deg, var(--neon-orange, #ff9d2e), rgb(255 157 46 / 40%)); }
+.eq__bar--2 { background: linear-gradient(180deg, var(--neon-cyan, #46f3ff), rgb(70 243 255 / 40%)); }
+.eq__bar--3 { background: linear-gradient(180deg, var(--neon-violet, #bd5cff), rgb(189 92 255 / 40%)); }
+.eq__bar--4 { background: linear-gradient(180deg, var(--neon-magenta, #ff4ecb), rgb(255 78 203 / 40%)); }
 
 .eq--active span {
   animation: eq-bounce 0.9s ease-in-out infinite;
 }
 
-.eq--active span:nth-child(2n) {
-  animation-delay: 0.15s;
-}
-
-.eq--active span:nth-child(3n) {
-  animation-delay: 0.3s;
-}
-
-.eq--active span:nth-child(4n) {
-  animation-delay: 0.45s;
-}
-
 @keyframes eq-bounce {
   0%, 100% {
-    transform: scaleY(0.4);
+    transform: scaleY(0.35);
   }
   50% {
     transform: scaleY(1);
@@ -160,7 +250,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 0;
 }
 
 @media (max-width: 720px) {
@@ -191,7 +281,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: 0;
+}
+
+.transport {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
 }
 
 .btn {
@@ -222,7 +318,7 @@
   color: var(--station-accent);
 }
 
-/* Teclas estilo serigrafía con retroiluminación (V6) */
+/* Teclas estilo serigrafía con retroiluminación */
 .key {
   background: linear-gradient(180deg, #232930, #141820);
   border: 1px solid #000;
@@ -242,6 +338,12 @@
   border-top-color: var(--key-backlight);
 }
 
+/* Configuración (dimmer): visualmente distinta del transporte */
+.key--config {
+  font-size: 0.62rem;
+  opacity: 0.9;
+}
+
 .key__num {
   font-size: 0.62rem;
   opacity: 0.7;
@@ -255,6 +357,22 @@
 
 .key__icon {
   flex: 0 0 auto;
+}
+
+.key__heart {
+  color: #ff6a5e;
+  animation: heart-pulse 3s ease-in-out infinite;
+}
+
+@keyframes heart-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.9); }
+}
+
+.key--special[aria-pressed="true"] {
+  border-color: #ff6a5e;
+  box-shadow: 0 0 12px rgb(255 106 94 / 45%), inset 0 1px 0 rgb(255 255 255 / 10%);
+  color: #ff6a5e;
 }
 
 .key--attention {
@@ -272,24 +390,28 @@
   color: var(--station-accent);
   border-color: var(--station-accent);
   border-top-color: var(--station-accent);
-  box-shadow: 0 0 10px var(--station-glow), inset 0 1px 0 rgb(255 255 255 / 10%);
+  box-shadow: 0 0 12px var(--station-glow), inset 0 1px 0 rgb(255 255 255 / 10%);
+}
+
+/* POWER compacto en columna izquierda; ámbar respirando en standby */
+.fp-left .power-key {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.58rem;
 }
 
 .power-key:not(:disabled) {
   color: var(--accent-magenta);
+  border: 2px solid var(--accent-magenta);
   border-top-color: var(--accent-magenta);
 }
 
-/* Botón de encendido redondo con aro magenta (distinto al rosita general) */
-.faceplate-grid .power-key {
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
-  border: 2px solid var(--accent-magenta);
-  flex-direction: column;
-  gap: 2px;
-  font-size: 0.58rem;
-  box-shadow: 0 0 12px rgb(255 78 203 / 30%), 0 2px 0 #000, inset 0 1px 0 rgb(255 255 255 / 10%);
+.power-button--standby {
+  color: var(--accent-amber, #ffad35) !important;
+  border-color: var(--accent-amber, #ffad35) !important;
 }
 
 .power-key__icon {
@@ -309,7 +431,7 @@
   outline-offset: 3px;
 }
 
-/* Perilla protagonista (V4): aro metálico + anillo luminoso + tapa */
+/* Perilla protagonista: aro metálico + anillo luminoso + tapa */
 .dial-wrap {
   display: flex;
   flex-direction: column;
@@ -333,7 +455,7 @@
   position: relative;
   padding: 9px;
   background: conic-gradient(var(--metal-light), var(--metal-mid), var(--metal-dark), var(--metal-mid), var(--metal-light));
-  box-shadow: 0 6px 18px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 25%);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 25%), 0 0 0 6px rgb(0 0 0 / 35%);
 }
 
 .knob__ring {
@@ -343,7 +465,7 @@
   border: 3px solid var(--station-accent);
   box-shadow: 0 0 8px var(--station-accent), 0 0 22px var(--station-glow);
   pointer-events: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  transition: border-color 1.5s ease, box-shadow 1.5s ease, opacity 0.3s ease;
 }
 
 .knob__body {
@@ -357,6 +479,7 @@
     repeating-conic-gradient(rgb(255 255 255 / 5%) 0 3deg, transparent 3deg 10deg);
   cursor: pointer;
   padding: 0;
+  touch-action: pan-y;
 }
 
 .knob__body:disabled {
@@ -441,7 +564,22 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 0;
   color: var(--text-secondary);
   font-family: ui-monospace, Consolas, monospace;
+}
+
+.volume .btn {
+  padding: 8px 10px;
+  font-size: 0.68rem;
+}
+
+.fp-left .volume {
+  flex-direction: row;
+}
+
+.fp-left .volume span {
+  font-size: 0.68rem;
+  min-width: 52px;
+  text-align: center;
 }

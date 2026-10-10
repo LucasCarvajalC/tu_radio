@@ -17,10 +17,96 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.35;
   background-image:
-    radial-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px);
-  background-size: 22px 22px;
+    radial-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px),
+    linear-gradient(180deg, transparent 0, rgb(255 255 255 / 1.5%) 50%, transparent 100%);
+  background-size: 22px 22px, 100% 5px;
+}
+
+/* Halo ambiental: dos capas en crossfade por opacity (V2 §V1).
+   El color viene de --station-glow según data-station. */
+.ambient-halo {
+  position: absolute;
+  inset: -40px 0 auto 0;
+  height: 420px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.25;
+  transition: opacity 1.5s ease;
+}
+
+.dashboard[data-lit="on"] .ambient-halo {
+  opacity: 1;
+}
+
+.ambient-halo__layer {
+  position: absolute;
+  inset: 0;
+  transition: opacity 1.5s ease;
+}
+
+.ambient-halo__layer--a {
+  background:
+    radial-gradient(560px 220px at 30% 60%, var(--station-glow) 0%, transparent 70%),
+    radial-gradient(700px 240px at 70% 55%, rgb(189 92 255 / 14%) 0%, transparent 70%);
+  opacity: 1;
+}
+
+.ambient-halo__layer--b {
+  background:
+    radial-gradient(560px 220px at 70% 60%, var(--station-glow) 0%, transparent 70%),
+    radial-gradient(700px 240px at 30% 55%, rgb(255 78 203 / 12%) 0%, transparent 70%);
+  opacity: 0;
+}
+
+/* Cambio de emisora: crossfade alternando capas (el color ya cambió por variable) */
+.dashboard[data-lit="on"] .ambient-halo__layer--b {
+  animation: halo-cross 3s ease-in-out infinite alternate;
+}
+
+@keyframes halo-cross {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Momentos cálidos: bienvenida / cumpleaños (dirección C, breve) */
+.dashboard[data-warm="on"] .ambient-halo__layer--a {
+  background:
+    radial-gradient(560px 220px at 30% 60%, rgb(255 199 102 / 28%) 0%, transparent 70%),
+    radial-gradient(700px 240px at 70% 55%, rgb(255 122 201 / 16%) 0%, transparent 70%);
+}
+
+.dashboard[data-warm="on"] .ambient-halo__layer--b {
+  background:
+    radial-gradient(560px 220px at 70% 60%, rgb(255 157 46 / 22%) 0%, transparent 70%),
+    radial-gradient(700px 240px at 30% 55%, rgb(255 199 102 / 14%) 0%, transparent 70%);
+}
+
+/* Colores por emisora (solo luz, la forma no cambia) */
+.dashboard[data-station="old-school"] {
+  --station-accent: var(--neon-blue);
+  --station-glow: rgb(47 168 255 / 35%);
+}
+
+.dashboard[data-station="boleros"] {
+  --station-accent: var(--warm-gold);
+  --station-glow: rgb(255 199 102 / 30%);
+}
+
+.dashboard[data-station="rock-latino"] {
+  --station-accent: var(--neon-cyan);
+  --station-glow: rgb(70 243 255 / 28%);
+}
+
+.dashboard[data-station="pop-kpop"] {
+  --station-accent: var(--neon-violet);
+  --station-glow: rgb(189 92 255 / 32%);
+}
+
+.dashboard[data-station="birthday"] {
+  --station-accent: #ff6a5e;
+  --station-glow: rgb(255 106 94 / 30%);
 }
 
 /* Hueco DIN donde encaja el equipo */
@@ -67,14 +153,6 @@
 .dashboard__console-wrap {
   width: 100%;
   position: relative;
-}
-
-.dashboard__hint {
-  margin-top: 16px;
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  font-family: ui-monospace, Consolas, monospace;
 }
 
 @media (max-width: 720px) {
