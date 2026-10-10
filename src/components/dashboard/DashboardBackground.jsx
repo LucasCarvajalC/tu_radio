@@ -1,4 +1,5 @@
 import DashboardVent from "./DashboardVent.jsx";
+import BirthdayFireworks from "./BirthdayFireworks.jsx";
 
 export default function DashboardBackground({
   children,
@@ -25,6 +26,7 @@ export default function DashboardBackground({
       </div>
       {isBirthday && (
         <div className="birthday-backdrop" aria-hidden="true">
+          <BirthdayFireworks finale={finale} />
           <div className="birthday-backdrop__sparkles">
             <span className="birthday-sparkle birthday-sparkle--1" />
             <span className="birthday-sparkle birthday-sparkle--2" />

@@ -194,6 +194,12 @@
   overflow: hidden;
 }
 
+.birthday-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 .birthday-sparkle {
   position: absolute;
   width: 14px;
