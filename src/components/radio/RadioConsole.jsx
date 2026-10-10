@@ -6,6 +6,7 @@ import VolumeControl from "./VolumeControl.jsx";
 import StationPresets from "./StationPresets.jsx";
 import AudioErrorMessage from "../overlays/AudioErrorMessage.jsx";
 import { stations } from "../../data/stations.js";
+import { personalization } from "../../data/personalization.js";
 
 function lookupSelected(state) {
   return stations.find((s) => s.id === state.selectedStationId) || null;
@@ -67,6 +68,31 @@ function statusFor(player) {
   return { freq: station.frequency, name: station.name, track: "Elige una emisora", status: "READY" };
 }
 
+// Etiqueta visible en pantalla según §V5 (honesta con el estado real).
+function stateLabelFor(status, activeKind) {
+  switch (status) {
+    case "PLAY":
+      return "NOW PLAYING";
+    case "INTRO":
+    case "BIRTHDAY":
+      return status === "INTRO" ? "PRESENTANDO ESTACIÓN" : "SPECIAL MESSAGE";
+    case "PAUSE":
+      return "PAUSE";
+    case "WELCOME":
+      return "WELCOME";
+    case "END":
+      return activeKind === "birthday-finished" ? "END OF MESSAGE" : "END";
+    case "ERROR":
+      return "ERROR";
+    case "LOADING":
+      return "LOADING";
+    case "READY":
+      return "READY";
+    default:
+      return status;
+  }
+}
+
 export default function RadioConsole({ player }) {
   const { state } = player;
   const [dimmed, setDimmed] = useState(false);
@@ -96,19 +122,30 @@ export default function RadioConsole({ player }) {
     state.playbackStatus === "error" &&
     (state.activeKind === "global-intro" || state.activeKind === "station-intro" || state.activeKind === "track" || state.activeKind === "birthday-message");
 
+  // Pantalla rica (§V5): ON AIR solo con audio real, TRK, etiqueta honesta.
+  const onAir = isPlaying;
+  const trackIdx = selected && selected.type === "music" && state.currentTrackId
+    ? selected.tracks.findIndex((t) => t.id === state.currentTrackId)
+    : -1;
+  const trackNo = trackIdx >= 0 ? trackIdx + 1 : null;
+  const trackTotal = selected && selected.type === "music" && selected.tracks.length > 0 ? selected.tracks.length : null;
+  const label = stateLabelFor(info.status, state.activeKind);
+  const isWelcome = state.powerState === "on" && state.introStatus === "playing";
+  const isBirthday = state.activeKind === "birthday-message" && !isOff;
+  const warm = isWelcome || isBirthday;
+
+  const consoleClass = [
+    "radio-console",
+    isOff ? "radio-console--off" : "",
+    state.playbackStatus === "error" ? "radio-console--error" : "",
+    dimmed ? "lcd-dim" : "",
+    isWelcome ? "is-welcome" : "",
+    isBirthday ? "is-birthday" : "",
+  ].filter(Boolean).join(" ");
+
   return (
     <section
-      className={
-        isOff
-          ? "radio-console radio-console--off"
-          : state.playbackStatus === "error"
-            ? dimmed
-              ? "radio-console radio-console--error lcd-dim"
-              : "radio-console radio-console--error"
-            : dimmed
-              ? "radio-console lcd-dim"
-              : "radio-console"
-      }
+      className={consoleClass}
       data-station={dataStation}
       aria-label={isOff ? "Radio apagada en standby" : "Radio encendida"}
     >
@@ -116,8 +153,27 @@ export default function RadioConsole({ player }) {
       <span className="fp-screw fp-screw--right" aria-hidden="true" />
       <div className="cd-slot" aria-hidden="true" />
       <div className="faceplate-inset faceplate-grid">
-        {/* Zona izquierda: perilla */}
+        {/* Zona izquierda: POWER + volumen + perilla protagonista */}
         <div className="fp-left">
+          <button
+            type="button"
+            className={isOff ? "btn key power-key power-button--standby" : "btn key power-key"}
+            aria-label={isOff ? "Encender radio" : "Apagar radio"}
+            aria-pressed={!isOff}
+            onClick={player.togglePower}
+          >
+            <svg className="key__icon power-key__icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3 L12 11" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+              <path d="M6.3 6.5 A8 8 0 1 0 17.7 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+            </svg>
+            <span>POWER</span>
+          </button>
+          <VolumeControl
+            disabled={isOff}
+            value={volValue}
+            onDown={() => player.setVolume(state.volume - 0.1)}
+            onUp={() => player.setVolume(state.volume + 0.1)}
+          />
           <FrequencyDial
             disabled={!stationsEnabled}
             locked={welcomeLock}
@@ -127,7 +183,7 @@ export default function RadioConsole({ player }) {
           />
         </div>
 
-        {/* Zona centro: serigrafía, pantalla y fila única de teclas */}
+        {/* Zona centro: serigrafía, pantalla y fila de teclas */}
         <div className="fp-center">
           <div className="fp-silk" aria-hidden="true">
             <span>MP3 · FM STEREO</span>
@@ -135,10 +191,16 @@ export default function RadioConsole({ player }) {
           <RadioDisplay
             frequency={info.freq}
             stationName={info.name}
-            trackText={info.track}
+            trackText={isWelcome ? personalization.welcomeLine : info.track}
             status={info.status}
             volume={volValue}
             eqActive={isPlaying}
+            onAir={onAir}
+            trackNo={trackNo}
+            trackTotal={trackTotal}
+            stateLabel={label}
+            welcomeLine={isWelcome ? personalization.welcomeLine : null}
+            warm={warm}
           />
           {showRetry && (
             <AudioErrorMessage
@@ -196,35 +258,16 @@ export default function RadioConsole({ player }) {
           </div>
         </div>
 
-        {/* Zona derecha: marca, controles y AUX */}
+        {/* Zona derecha: marca, dedicatoria, dimmer y AUX decorativo */}
         <div className="fp-right">
           <div className="fp-brand" aria-hidden="true">
             <span className="fp-brand__name">TU RADIO</span>
-            <span className="fp-brand__model">CDX-2004 · SUPER BASS · 45W×4</span>
+            <span className="fp-brand__dedication">{personalization.dedication}</span>
+            <span className="fp-brand__model">RETRO SOUND · FM STEREO</span>
           </div>
           <button
             type="button"
-            className={isOff ? "btn key power-key power-button--standby" : "btn key power-key"}
-            aria-label={isOff ? "Encender radio" : "Apagar radio"}
-            aria-pressed={!isOff}
-            onClick={player.togglePower}
-          >
-            <svg className="key__icon power-key__icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 3 L12 11" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-              <path d="M6.3 6.5 A8 8 0 1 0 17.7 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-            </svg>
-            <span>POWER</span>
-          </button>
-          <VolumeControl
-            disabled={isOff}
-            value={volValue}
-            column
-            onDown={() => player.setVolume(state.volume - 0.1)}
-            onUp={() => player.setVolume(state.volume + 0.1)}
-          />
-          <button
-            type="button"
-            className="btn key"
+            className="btn key key--config"
             disabled={isOff}
             title={isOff ? "Radio apagada — pulsa POWER" : dimmed ? "Brillo normal" : "Atenuar pantalla"}
             aria-label={dimmed ? "Brillo normal de pantalla" : "Atenuar pantalla"}

@@ -1,5 +1,5 @@
 :root {
-  --dashboard-bg: #07090d;
+  --dashboard-bg: #06080c;
   --dashboard-panel: #10141b;
   --radio-shell: #171b22;
   --radio-shell-highlight: #353d48;
@@ -16,8 +16,8 @@
   --text-primary: #f5f7fb;
   --text-secondary: #9aa6b5;
   --focus-ring: #fff0a8;
-  --station-accent: var(--accent-pink);
-  --station-glow: var(--accent-pink-glow);
+  --station-accent: var(--neon-blue);
+  --station-glow: rgb(47 168 255 / 35%);
 
   /* Bisel / plástico */
   --bezel-black: #07080b;
@@ -34,8 +34,16 @@
 
   /* Iluminación (azul por defecto) */
   --key-backlight: var(--station-accent);
+  --neon-blue: #2fa8ff;
+  --neon-cyan: #46f3ff;
+  --neon-violet: #bd5cff;
+  --neon-magenta: #ff4ecb;
+  --neon-orange: #ff9d2e;
+  --warm-gold: #ffc766;
 
   /* Pantalla */
+  --lcd-bg-top: #06142a;
+  --lcd-bg-bottom: #020812;
   --lcd-text: #cfe9ff;
   --lcd-text-dim: rgb(207 233 255 / 38%);
 

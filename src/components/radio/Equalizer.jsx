@@ -1,14 +1,20 @@
+// Ecualizador decorativo y honesto: no mide el audio real, solo anima
+// con transform mientras hay reproducción. Quieto en silencio.
+const BAR_COUNT = 20;
+
 export default function Equalizer({ active, compact = false }) {
-  const bars = compact ? [30, 55, 80, 45, 65, 35, 70] : [30, 55, 80, 45, 65, 35, 70, 50, 60, 40, 75, 55];
+  const count = compact ? 12 : BAR_COUNT;
+  const bars = Array.from({ length: count }, (_, i) => i);
   return (
     <div className={active ? "eq eq--active" : "eq"} aria-hidden="true">
-      {bars.map((h, i) => (
+      {bars.map((i) => (
         <span
           key={i}
+          className={`eq__bar eq__bar--${(i % 4) + 1}`}
           style={{
-            height: `${h}%`,
-            transformOrigin: "bottom",
-            opacity: active ? 0.9 : 0.35,
+            animationDelay: `${(i % 7) * 0.12}s`,
+            animationDuration: `${0.7 + (i % 5) * 0.14}s`,
+            opacity: active ? 0.95 : 0.3,
           }}
         />
       ))}

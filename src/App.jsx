@@ -4,16 +4,18 @@ import { useRadioPlayer } from "./hooks/useRadioPlayer.js";
 
 export default function App() {
   const player = useRadioPlayer();
-  const { audioRef } = player;
+  const { audioRef, state } = player;
+  const stationId = state.selectedStationId || "old-school";
+  const lit = state.powerState === "on";
+  const warm =
+    state.powerState === "on" &&
+    (state.introStatus === "playing" || state.activeKind === "birthday-message");
   return (
-    <DashboardBackground>
+    <DashboardBackground stationId={stationId} lit={lit} warm={warm}>
       <RadioConsole player={player} />
       {/* Único elemento de audio persistente. No recrearlo por pista. */}
       {/* oxlint-disable-next-line react(refs) */}
       <audio ref={audioRef} preload="metadata" aria-hidden="true" />
-      {import.meta.env.DEV && (
-        <p className="dashboard__hint">DEV · bienvenida bloqueante · volumen activo en welcome</p>
-      )}
     </DashboardBackground>
   );
 }

@@ -1,16 +1,19 @@
 .radio-console {
-  --station-accent: var(--accent-pink);
-  --station-glow: var(--accent-pink-glow);
+  --station-accent: var(--neon-blue);
+  --station-glow: rgb(47 168 255 / 35%);
   position: relative;
   width: min(100%, var(--faceplate-max-width));
+  /* Sin aspect-ratio fijo: el contenido manda en altura.
+     La silueta apaisada la dan el max-width + el grid 24/54/22.
+     Un ratio fijo + overflow:hidden recortaba POWER/VOL/perilla y teclas. */
   margin-inline: auto;
   background: linear-gradient(180deg, var(--bezel-gloss-top), var(--bezel-gloss-mid) 35%, var(--bezel-gloss-bot));
   border: 1px solid var(--bezel-chamfer);
-  border-radius: var(--faceplate-radius) / calc(var(--faceplate-radius) * 1.4);
-  padding: 20px 22px;
+  border-radius: 18px 22px 18px 22px / 26px 30px 26px 30px;
+  padding: 22px 30px;
   color: var(--text-primary);
-  box-shadow: 0 24px 60px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 14%);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 24px 60px rgb(0 0 0 / 60%), inset 0 1px 0 rgb(255 255 255 / 14%), 0 0 42px var(--station-glow);
+  transition: box-shadow 1.5s ease, border-color 1.5s ease;
   overflow: hidden;
 }
 
@@ -34,34 +37,39 @@
 }
 
 .radio-console[data-station="old-school"] {
-  --station-accent: var(--lcd-blue);
-  --station-glow: rgb(0 168 255 / 24%);
+  --station-accent: var(--neon-blue);
+  --station-glow: rgb(47 168 255 / 35%);
 }
 
 .radio-console[data-station="boleros"] {
-  --station-accent: var(--accent-amber);
-  --station-glow: rgb(255 173 53 / 24%);
+  --station-accent: var(--warm-gold);
+  --station-glow: rgb(255 199 102 / 30%);
 }
 
 .radio-console[data-station="rock-latino"] {
-  --station-accent: var(--lcd-cyan);
-  --station-glow: rgb(70 243 255 / 22%);
+  --station-accent: var(--neon-cyan);
+  --station-glow: rgb(70 243 255 / 28%);
 }
 
 .radio-console[data-station="pop-kpop"] {
-  --station-accent: var(--accent-violet);
-  --station-glow: rgb(189 92 255 / 26%);
+  --station-accent: var(--neon-violet);
+  --station-glow: rgb(189 92 255 / 32%);
 }
 
 .radio-console[data-station="birthday"] {
-  --station-accent: var(--accent-red);
-  --station-glow: rgb(255 70 88 / 26%);
+  --station-accent: #ff6a5e;
+  --station-glow: rgb(255 106 94 / 30%);
 }
 
-.radio-main {
-  display: grid;
-  grid-template-columns: 1fr 190px;
-  gap: 20px;
+/* Momentos cálidos: la luz cambia, la forma no */
+.radio-console.is-welcome {
+  --station-accent: var(--warm-gold);
+  --station-glow: rgb(255 199 102 / 32%);
+}
+
+.radio-console.is-birthday {
+  --station-accent: #ff6a5e;
+  --station-glow: rgb(255 106 94 / 32%);
 }
 
 /* Tornillos mínimos del frontal (decorativos, inertes) */
@@ -73,22 +81,24 @@
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #4a515c, #14171c 70%);
   box-shadow: inset 0 1px 1px rgb(0 0 0 / 80%);
+  z-index: 2;
 }
 
 .fp-screw--left {
-  left: 10px;
+  left: 14px;
 }
 
 .fp-screw--right {
-  right: 10px;
+  right: 14px;
 }
 
-/* Faceplate: 3 zonas (V3) */
+/* Faceplate: 3 zonas 24 / 54 / 22 (§3) */
 .faceplate-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.2fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.1fr) minmax(0, 0.8fr);
   gap: 14px;
   align-items: start;
+  min-height: 0;
 }
 
 .fp-left {
@@ -96,17 +106,29 @@
   flex-direction: column;
   gap: 10px;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-width: 0;
-  align-self: stretch;
+  min-height: 0;
+  align-self: start;
+  width: 100%;
+  /* Aluminio cepillado sutil en la zona de la perilla */
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 2.5%) 0 2px, transparent 2px 4px),
+    linear-gradient(180deg, #232930, #141820);
+  border: 1px solid #000;
+  border-radius: 10px;
+  box-shadow: inset 0 4px 14px rgb(0 0 0 / 70%), 0 1px 0 rgb(255 255 255 / 5%);
+  padding: 12px 8px;
 }
 
 .fp-center {
   min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-self: stretch;
+  justify-content: flex-start;
+  align-self: start;
+  width: 100%;
 }
 
 .fp-silk {
@@ -121,6 +143,9 @@
 
 .fp-keys {
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .fp-right {
@@ -129,14 +154,16 @@
   align-items: center;
   gap: 10px;
   min-width: 0;
+  min-height: 0;
   max-width: 100%;
-  align-self: stretch;
-  justify-content: center;
+  align-self: start;
+  width: 100%;
+  justify-content: flex-start;
 }
 
 .fp-brand {
   color: var(--text-secondary);
-  opacity: 0.8;
+  opacity: 0.85;
   font-size: 0.72rem;
   letter-spacing: 0.3em;
   font-family: system-ui, sans-serif;
@@ -147,6 +174,17 @@
   max-width: 100%;
   text-align: center;
   overflow-wrap: anywhere;
+}
+
+.fp-brand__name {
+  color: var(--text-primary);
+}
+
+.fp-brand__dedication {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  opacity: 0.6;
+  font-style: italic;
 }
 
 .fp-brand__model {
@@ -172,7 +210,6 @@
 
 .aux-port {
   width: min(84px, 100%);
-  align-self: flex-end;
   padding: 10px 8px;
   border: 1px solid #1c232e;
   border-radius: 8px;
@@ -204,13 +241,18 @@
 }
 
 @media (max-width: 720px) {
-  .radio-main {
-    grid-template-columns: 1fr;
+  .radio-console {
+    aspect-ratio: auto;
+    border-radius: var(--faceplate-radius);
   }
 }
 
-/* Responsive faceplate (V9) */
+/* Responsive faceplate */
 @media (max-width: 959px) and (min-width: 600px) {
+  .radio-console {
+    aspect-ratio: auto;
+  }
+
   .faceplate-grid {
     grid-template-columns: 26% 52% 22%;
     gap: 10px;
@@ -230,6 +272,7 @@
 @media (max-width: 599px) {
   .radio-console {
     padding: 12px;
+    aspect-ratio: auto;
   }
 
   .faceplate-inset {
@@ -294,7 +337,7 @@
 }
 
 .radio-console:not(.radio-console--off) {
-  transition: filter 0.7s ease, box-shadow 0.3s ease;
+  transition: filter 0.7s ease, box-shadow 1.5s ease;
 }
 
 .radio-console--off .lcd {
