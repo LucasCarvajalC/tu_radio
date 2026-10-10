@@ -121,7 +121,126 @@
     inset 0 -2px 6px rgb(255 255 255 / 4%),
     0 1px 0 rgb(255 255 255 / 5%);
   position: relative;
-  z-index: 1;
+  z-index: 3;
+}
+
+/* --- Tema cumpleaños: fondo con crossfade (Fase A: 700-1200 ms) --- */
+.birthday-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 480px at 50% 42%, var(--birthday-bg-mid) 0%, transparent 65%),
+    linear-gradient(180deg, #171021 0%, var(--birthday-bg) 45%, #0b0712 100%);
+}
+
+.dashboard[data-station="birthday"] .birthday-bg {
+  opacity: 1;
+}
+
+.birthday-bg__halo {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: birthday-halo-breathe 7s ease-in-out infinite;
+}
+
+.birthday-bg__halo--main {
+  width: 620px;
+  height: 340px;
+  left: 50%;
+  top: 34%;
+  transform: translate(-50%, -50%);
+  background: rgb(248 200 232 / 22%);
+}
+
+.birthday-bg__halo--side {
+  width: 420px;
+  height: 260px;
+  left: 12%;
+  top: 22%;
+  background: rgb(201 184 255 / 16%);
+  animation-delay: -2.5s;
+}
+
+.birthday-bg__halo--floor {
+  width: 720px;
+  height: 150px;
+  left: 50%;
+  bottom: 4%;
+  transform: translateX(-50%);
+  background: rgb(244 168 212 / 12%);
+  animation-delay: -4.5s;
+}
+
+@keyframes birthday-halo-breathe {
+  0%, 100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Destellos ocasionales: 3 estrellas de 4 puntas, pocas y lejos del centro */
+.birthday-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.birthday-sparkle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--birthday-gold);
+  opacity: 0;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  animation: birthday-sparkle-twinkle 6s ease-in-out infinite;
+}
+
+.birthday-sparkle--1 {
+  left: 8%;
+  top: 18%;
+  animation-delay: 0.5s;
+}
+
+.birthday-sparkle--2 {
+  right: 9%;
+  top: 30%;
+  width: 10px;
+  height: 10px;
+  background: var(--birthday-white);
+  animation-delay: 2.6s;
+}
+
+.birthday-sparkle--3 {
+  left: 14%;
+  bottom: 16%;
+  width: 11px;
+  height: 11px;
+  background: var(--birthday-lavender);
+  animation-delay: 4.2s;
+}
+
+@keyframes birthday-sparkle-twinkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.6) rotate(0deg);
+  }
+  12%, 22% {
+    opacity: 0.9;
+    transform: scale(1) rotate(20deg);
+  }
+  34% {
+    opacity: 0;
+    transform: scale(0.6) rotate(40deg);
+  }
 }
 
 .dashboard__side-vents {

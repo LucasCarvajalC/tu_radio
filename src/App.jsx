@@ -10,8 +10,12 @@ export default function App() {
   const warm =
     state.powerState === "on" &&
     (state.introStatus === "playing" || state.activeKind === "birthday-message");
+  const finale =
+    state.powerState === "on" &&
+    state.selectedStationId === "birthday" &&
+    state.activeKind === "birthday-finished";
   return (
-    <DashboardBackground stationId={stationId} lit={lit} warm={warm}>
+    <DashboardBackground stationId={stationId} lit={lit} warm={warm} finale={finale}>
       <RadioConsole player={player} />
       {/* Único elemento de audio persistente. No recrearlo por pista. */}
       {/* oxlint-disable-next-line react(refs) */}

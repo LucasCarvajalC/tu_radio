@@ -6,4 +6,7 @@ export const personalization = {
   dedication: "Hecho especialmente para ti",
   // Línea que aparece en pantalla mientras suena la voz de bienvenida.
   welcomeLine: "Hecho especialmente para ti",
+  // Título exacto de la estación especial durante su mensaje.
+  birthdayTitle: "Feliz cumpleaños",
+  birthdayTitleAccent: "papita",
 };

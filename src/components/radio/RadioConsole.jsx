@@ -131,7 +131,7 @@ export default function RadioConsole({ player }) {
   const trackTotal = selected && selected.type === "music" && selected.tracks.length > 0 ? selected.tracks.length : null;
   const label = stateLabelFor(info.status, state.activeKind);
   const isWelcome = state.powerState === "on" && state.introStatus === "playing";
-  const isBirthday = state.activeKind === "birthday-message" && !isOff;
+  const isBirthday = selected?.type === "special" && !isOff;
   const warm = isWelcome || isBirthday;
 
   const consoleClass = [
