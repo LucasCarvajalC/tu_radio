@@ -20,7 +20,17 @@ export const stations = [
     accent: "blue",
     type: "music",
     introSrc: "/audio/stations/old-school/station-intro.mp3",
-    tracks: [],
+    tracks: [
+      { id: "old-school-001", title: "Pa' Que La Pases Bien", artist: "Arcángel", src: "/audio/stations/old-school/songs/song-001.mp3" },
+      { id: "old-school-002", title: "Baila Morena", artist: "Hector y Tito ft. Don Omar, Glory", src: "/audio/stations/old-school/songs/song-002.mp3" },
+      { id: "old-school-003", title: "Lo Que Pasó, Pasó", artist: "Daddy Yankee", src: "/audio/stations/old-school/songs/song-003.mp3" },
+      { id: "old-school-004", title: "Danza Kuduro (Remix)", artist: "Don Omar ft. Daddy Yankee y Arcangel", src: "/audio/stations/old-school/songs/song-004.mp3" },
+      { id: "old-school-005", title: "Virtual Diva", artist: "Don Omar", src: "/audio/stations/old-school/songs/song-005.mp3" },
+      { id: "old-school-006", title: "Dile", artist: "Don Omar", src: "/audio/stations/old-school/songs/song-006.mp3" },
+      { id: "old-school-007", title: "RX", artist: "Don Omar, Kendo Kapponi", src: "/audio/stations/old-school/songs/song-007.mp3" },
+      { id: "old-school-008", title: "Mayor Que Yo", artist: "Wisin & Yandel ft. Daddy Yankee, Baby Ranks y Tony Tun Tun", src: "/audio/stations/old-school/songs/song-008.mp3" },
+      { id: "old-school-009", title: "Rakata", artist: "Wisin y Yandel", src: "/audio/stations/old-school/songs/song-009.mp3" },
+    ],
   },
   {
     id: "boleros",
