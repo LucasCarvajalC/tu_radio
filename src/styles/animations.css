@@ -99,6 +99,9 @@
   .lcd__onair--on,
   .key__heart,
   .ambient-halo__layer--b,
+  .birthday-bg__halo,
+  .birthday-sparkle,
+  .lcd__bday--enter,
   .radio-console.is-birthday .lcd--warm,
   .radio-console.is-welcome .lcd--warm {
     animation: none !important;

@@ -51,3 +51,17 @@ Si el markup obliga a una prop mínima, se hace y se recorren las pruebas.
 - No se tocó lógica (`radioReducer`, `useRadioPlayer`, `stations.js`, `shuffle.js`).
 - Omitido a propósito (V9 opcional): analizador Web Audio sincronizado — se mantiene
   ecualizador decorativo para no arriesgar la reproducción. Sin dependencias nuevas.
+
+## Tema cumpleaños (2026-10-10, PLAN_REDISENO_ESTACION_FELIZ_CUMPLEANOS.md)
+
+- Solo visual; sin tocar audio, reducer, catálogo (salvo textos en `personalization.js`).
+- Activación por selección real: `dashboard[data-station="birthday"]` (fondo) e
+  `is-birthday` en consola (selección, no solo reproducción).
+- `BirthdayBackdrop` + `BirthdayFireworks`: overlay con crossfade, halos que respiran,
+  3 destellos, motas + fuegos laterales en un Canvas (un rAF, DPR, cleanup,
+  nada con movimiento reducido). Sin dependencias.
+- Pantalla: «Feliz cumpleaños papita» (de `personalization.js`, con test),
+  jerarquía etiqueta/título/sub, ecualizador pastel, estado real intacto.
+- Cierre: `finale` (birthday-finished) dispara ráfaga final y calma destellos.
+- E2E headless: entrar/salir/reingresar sin errores, un solo canvas, tema
+  limpio al salir. Nota: `birthday-message.mp3` aún no existe (muestra reintento).

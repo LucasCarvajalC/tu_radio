@@ -52,3 +52,17 @@
   --faceplate-max-width: 1040px;
   --faceplate-radius: 14px;
 }
+
+/* Tema cumpleaños: tokens encapsulados, solo bajo data-station="birthday". */
+.dashboard[data-station="birthday"] {
+  --birthday-pink: #f8c8e8;
+  --birthday-pink-soft: #f4a8d4;
+  --birthday-pink-strong: #ff83c8;
+  --birthday-pink-deep: #d95ba6;
+  --birthday-lavender: #c9b8ff;
+  --birthday-violet: #9c8be8;
+  --birthday-white: #fff5fb;
+  --birthday-gold: #ffe0a3;
+  --birthday-bg: #100b16;
+  --birthday-bg-mid: #211326;
+}

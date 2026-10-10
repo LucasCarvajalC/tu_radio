@@ -233,6 +233,78 @@
 .eq__bar--3 { background: linear-gradient(180deg, var(--neon-violet, #bd5cff), rgb(189 92 255 / 40%)); }
 .eq__bar--4 { background: linear-gradient(180deg, var(--neon-magenta, #ff4ecb), rgb(255 78 203 / 40%)); }
 
+/* Cumpleaños: ecualizador en paleta pastel (rosa, lavanda, dorado). */
+.is-birthday .eq__bar--1 { background: linear-gradient(180deg, #f4a8d4, rgb(244 168 212 / 40%)); }
+.is-birthday .eq__bar--2 { background: linear-gradient(180deg, #c9b8ff, rgb(201 184 255 / 40%)); }
+.is-birthday .eq__bar--3 { background: linear-gradient(180deg, #ffe0a3, rgb(255 224 163 / 40%)); }
+.is-birthday .eq__bar--4 { background: linear-gradient(180deg, #ff83c8, rgb(255 131 200 / 40%)); }
+
+/* Pantalla de cumpleaños: jerarquía del mensaje (estable, sin parpadeo). */
+.lcd__bday {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.lcd__bday-label {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  color: var(--lcd-text-dim, #9aa6b5);
+}
+
+.lcd__bday-title {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  color: #fff5fb;
+  text-shadow: 0 0 10px rgb(255 131 200 / 45%);
+  white-space: nowrap;
+}
+
+.lcd__bday-accent {
+  color: #ff83c8;
+}
+
+.lcd__bday-sub {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  color: #e1cde0;
+}
+
+.lcd__bday--enter {
+  animation: bday-in 0.6s ease both;
+}
+
+@keyframes bday-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 599px) {
+  .lcd__bday-title {
+    font-size: 0.95rem;
+  }
+
+  .birthday-bg__halo--main {
+    width: 420px;
+    height: 240px;
+  }
+
+  .birthday-bg__halo--side {
+    width: 260px;
+    height: 170px;
+  }
+}
+
 .eq--active span {
   animation: eq-bounce 0.9s ease-in-out infinite;
 }
