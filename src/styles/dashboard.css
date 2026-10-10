@@ -234,6 +234,11 @@
   animation-delay: 4.2s;
 }
 
+.dashboard[data-finale="on"] .birthday-sparkle {
+  animation: none;
+  opacity: 0.35;
+}
+
 @keyframes birthday-sparkle-twinkle {
   0%, 100% {
     opacity: 0;
